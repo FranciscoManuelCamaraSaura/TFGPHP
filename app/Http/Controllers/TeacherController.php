@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\Group;
+use App\Models\GroupHavePreceptor;
 use App\Models\Impart;
 use App\Models\Person;
 use App\Models\Subject;
@@ -18,8 +20,8 @@ class TeacherController extends Controller {
 			$school = $request -> id;
 			$person = Person::findOrFail($request -> person);
 			$type_user = $request -> type_user;
-
 			$courses = Course::getCourses($request -> id);
+
 			if($type_user === "Manager") {
 				return view("teachers", compact("school", "courses", "person", "type_user"));
 			} else {
@@ -151,14 +153,72 @@ class TeacherController extends Controller {
 
 	public function editTeacher(Request $request) {
 		if(isset($request -> id) && isset($request -> person)) {
+			$subjects = array();
+	
 			$school = $request -> id;
 			$person = Person::findOrFail($request -> person);
+			$teacher = Person::findOrFail($request -> teacher);
 			$type_user = $request -> type_user;
-			$courses = Course::getCourses($school);
+			$imparts = Impart::getCoursesGroups($teacher -> dni);
 
-			return view("edit_teacher", compact("school", "person", "courses", "type_user"));
+			$course_default = Course::findOrFail($imparts[0] -> course_id);
+			$group_default = $imparts[0] -> group_words;
+
+			foreach($imparts as $impart) {
+				$subjects_impart[] = Subject::getSubjectByCode($impart -> subject);
+			}
+
+			$subjects = $this -> getByDegree($course_default -> degree, $course_default -> number, $group_default);
+
+			$courses = Course::getCourses($school);
+			$groups = Group::getGroups($course_default -> number);
+			$is_preceptor = Teacher::getDNIPerson($teacher -> dni) -> preceptor;
+
+			return view("edit_teacher", compact("school", "person", "teacher", "courses", "course_default", "groups", "group_default", "subjects_impart", "subjects", "is_preceptor", "type_user"));
 		} else {
 			return response() -> json(["message" => "Invalid person"], 400);
 		}
+	}
+
+	private function getByDegree($degree, $number, $group) {
+		switch($degree) {
+			case "preschool":
+				$subjects = Subject::getSubjectByDegreeCourse($degree, $number);
+				break;
+
+			case "primary":
+				$subjects = Subject::getSubjectByDegree($degree);
+				break;
+
+			case "secundary":
+				if($number == 3) {
+					$subjects = Subject::getSubjectByDegreeCourseWord($degree, $number, $group);
+				} else {
+					$subjects = Subject::getSubjectByDegreeCourse($degree, $number);
+				}
+
+				break;
+			
+			case "bachelor":
+				$subjects = Subject::getSubjectByDegreeCourseWord($degree, $number, $group);
+				break;
+		}
+
+		return $subjects;
+	}
+
+	public function delete(Request $request) {
+		$person = Person::findOrFail($request -> teacher);
+		$preceptor = GroupHavePreceptor::getByPreceptor($person -> dni);
+		$teacher = Teacher::getDNIPerson($person -> dni);
+
+		if(isset($preceptor -> preceptor)) {
+			$preceptor -> delete();
+		}
+
+		$teacher -> delete();
+		$person -> delete();
+
+		return response() -> json(200);
 	}
 }

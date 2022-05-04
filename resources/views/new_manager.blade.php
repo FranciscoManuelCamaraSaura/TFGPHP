@@ -1,8 +1,8 @@
 @extends('layouts.master')
-@section('title', 'Nuevo profesor')
+@section('title', 'Nuevo directivo')
 @section('content')
-	<div id="newTeacher" class="container">
-		<h2>Nuevo profesor</h2>
+	<div id="newManager" class="container">
+		<h2>Nuevo directivo</h2>
 
 		<div class="row">
 			<div class="col-md-3">
@@ -15,9 +15,9 @@
 		</div>
 
 		<div class="row">
-			<h5>Datos del profesor</h5>
+			<h5>Datos del directivo</h5>
 
-			<div id="teacherFields" class="row">
+			<div id="managerFields" class="row">
 				<div class="row">
 					<div class="col-md-2">
 					</div>
@@ -27,7 +27,7 @@
 					</div>
 
 					<div class="col-md-3">
-						<input type="text" id="teacherDNI" class="" placeholder="DNI" value="{{ old('teacherDNI') }}">
+						<input type="text" id="managerDNI" class="" placeholder="DNI" value="{{ old('managerDNI') }}">
 					</div>
 				</div>
 
@@ -42,7 +42,7 @@
 							</div>
 
 							<div class="col-md-8">
-								<input type="text" id="teacherName" class="" placeholder="Nombre" value="{{ old('teacherName') }}">
+								<input type="text" id="managerName" class="" placeholder="Nombre" value="{{ old('managerName') }}">
 							</div>
 						</div>
 					</div>
@@ -57,7 +57,7 @@
 							</div>
 
 							<div class="col-md-8">
-								<input type="text" id="teacherSurnames" class="" placeholder="Apellidos" value="{{ old('teacherSurnames') }}">
+								<input type="text" id="managerSurnames" class="" placeholder="Apellidos" value="{{ old('managerSurnames') }}">
 							</div>
 						</div>
 					</div>
@@ -74,7 +74,7 @@
 							</div>
 
 							<div class="col-md-6">
-								<input type="text" id="teacherPhone" class="" placeholder="Teléfono" value="{{ old('teacherPhone') }}">
+								<input type="text" id="managerPhone" class="" placeholder="Teléfono" value="{{ old('managerPhone') }}">
 							</div>
 						</div>
 					</div>
@@ -89,7 +89,7 @@
 							</div>
 
 							<div class="col-md-6">
-								<input type="text" id="teacherEmail" class="" placeholder="Correco electrónico" value="{{ old('teacherEmail') }}">
+								<input type="text" id="managerEmail" class="" placeholder="Correco electrónico" value="{{ old('managerEmail') }}">
 							</div>
 						</div>
 					</div>
@@ -110,7 +110,7 @@
 							</div>
 
 							<div class="col-md-8">
-								<input type="text" id="teacherAddress" class="" placeholder="Dirección" value="{{ old('teacherAddress') }}">
+								<input type="text" id="managerAddress" class="" placeholder="Dirección" value="{{ old('managerAddress') }}">
 							</div>
 						</div>
 					</div>
@@ -125,7 +125,7 @@
 							</div>
 
 							<div class="col-md-4">
-								<input type="text" id="teacherLocation" class="" placeholder="Ciudad" value="{{ old('teacherLocation') }}">
+								<input type="text" id="managerLocation" class="" placeholder="Ciudad" value="{{ old('managerLocation') }}">
 							</div>
 						</div>
 					</div>
@@ -142,7 +142,7 @@
 							</div>
 
 							<div class="col-md-6">
-								<input type="text" id="teacherProvince" class="" placeholder="Provincia" value="{{ old('teacherProvince') }}">
+								<input type="text" id="managerProvince" class="" placeholder="Provincia" value="{{ old('managerProvince') }}">
 							</div>
 						</div>
 					</div>
@@ -157,91 +157,52 @@
 							</div>
 
 							<div class="col-md-4">
-								<input type="text" id="teacherPostalCode" class="" placeholder="Código postal" value="{{ old('teacherPostalCode') }}">
+								<input type="text" id="managerPostalCode" class="" placeholder="Código postal" value="{{ old('managerPostalCode') }}">
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 
-			<h5>Datos del curso</h5>
+			<h5>Datos del centro</h5>
 
-			<div id="courseFields" class="row">
+			<div id="managerSelect" class="row">
 				<div class="row">
-					<div class="col-md-4">
-						<div class="row">
-							<div class="col-md-3">
-							</div>
-
-							<div class="col-md-3">
-								<label>Curso</label>
-							</div>
-
-							<select id="course" onchange="validateCourse('{{ $school }}', '{{ $person -> id }}', '{{ $type_user }}', 2)">
-								<option disabled="disabled" selected="selected">Seleccione un curso</option>
-
-								@foreach($courses as $course)
-									<option value="{{ $course -> id }}">{{ $course -> number }} {{ $course -> degree }}</option>
-								@endforeach
-							</select>
-						</div>
-					</div>
-
 					<div class="col-md-6">
 						<div class="row">
 							<div class="col-md-2">
 							</div>
 
-							<div class="col-md-2">
-								<label>Grupo</label>
+							<div class="col-md-3">
+								<label>Tipo de directivo</label>
 							</div>
 
-							<select id="group" onchange="addSubject('{{ $school }}', '{{ $person -> id }}', '{{ $type_user }}', 1)">
-								<option disabled="disabled" selected="selected">Seleccione un grupo</option>
+							<select id="managerType" onchange="validateType('{{ $school }}')">
+								<option disabled="disabled" selected="selected">Seleccione un tipo de directivo</option>
+
+								@foreach($managers as $manager)
+									<option value="{{ $manager['type'] }}">{{ $manager['description'] }}</option>
+								@endforeach
 							</select>
 						</div>
 					</div>
 				</div>
 
 				<div class="row">
-					<div class="col-md-4">
-						<div class="row">
-							<div class="col-md-3">
-							</div>
-
-							<div class="form-check col-md-9">
-								<input id="preceptor" class="form-check-input" type="checkbox" value="">
-								<label class="form-check-label" for="massive">
-									Asignar como tutor del curso
-								</label>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<h5 id="h5subjectsFields" style="display: none">Datos de las asignaturas</h5>
-
-			<div id="subjectsFields" class="row" style="display: none">
-				<div id="selectsSubjects" class="row">
-				</div>
-
-				<!--<div class="row">
 					<div class="col-md-1">
 					</div>
 
-					<div class="col-md-2">
-						<a id="addSubject" class="enlace" onclick="addSubject('{{ $school }}', '{{ $person -> id }}', '{{ $type_user }}', 2)">
-							<i class="fas fa-plus-circle"></i> Añadir asignatura
-						</a>
+					<div class="col-md-5">
+						<div id="errorType" class="alert alert-danger" style="display:none;">
+						</div>
 					</div>
-				</div>-->
+				</div>
 			</div>
 		</div>
 
 		<div class="row">
 			<div class="col-md-12">
-				<button id="save" class="btn btn-primary" onclick="save('', '{{ $type_user }}')">
+				<button id="save" class="btn btn-primary" onclick="save('', '{{ $school }}', '{{ $type_user }}')" onchange="enableButton()">
 					Guardar
 				</button>
 			</div>
@@ -256,5 +217,5 @@
 		</div>
 	</div>
 
-	<script src="{{ asset('js/teachers.js') }}"></script>
+	<script src="{{ asset('js/managers.js') }}"></script>
 @endsection

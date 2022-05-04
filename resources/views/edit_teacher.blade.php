@@ -214,13 +214,13 @@
 							</div>
 
 							<div class="col-md-4">
-								<label id="groupLabel">{{ $group_words_default -> group_words }}</label>
+								<label id="groupLabel">{{ $group_default }}</label>
 
 								<select id="group" onchange="addSubject('{{ $school }}', '{{ $person -> id }}', '{{ $type_user }}', 1)" style="display:none;">
 									<option disabled="disabled" selected="selected">Seleccione un grupo</option>
 
 									@foreach($groups as $group)
-										@if ($group -> group_words === $group_words_default -> group_words)
+										@if ($group -> group_words === $group_default)
 											<option value="{{ $group -> group_words }}" selected="selected">{{ $group -> group_words }}</option>
 										@else
 											<option value="{{ $group -> group_words }}">{{ $group -> group_words }}</option>
@@ -238,21 +238,66 @@
 							<div class="col-md-3">
 							</div>
 
-							<div class="form-check col-md-9">
-								<input id="preceptor" class="form-check-input" type="checkbox" value="">
-								<label class="form-check-label" for="massive">
-									Asignar como tutor del curso
+							<div class="col-md-9">
+								<label id="preceptorLabel">
+									@if ($is_preceptor === true)
+										Este profesor es el tutor del grupo
+									@else
+										Este profesor no es el tutor del grupo
+									@endif
 								</label>
+
+								<div id="preceptorForm" class="form-check" style="display:none;">
+									@if ($is_preceptor === true)
+										<input id="preceptor" class="form-check-input" type="checkbox" value="" checked>
+									@else
+										<input id="preceptor" class="form-check-input" type="checkbox" value="">
+									@endif
+
+									<label class="form-check-label" for="massive">
+										Asignar como tutor del curso
+									</label>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 
-			<h5 id="h5subjectsFields" style="display: none">Datos de las asignaturas</h5>
+			<h5 id="h5subjectsFields">Datos de las asignaturas</h5>
 
-			<div id="subjectsFields" class="row" style="display: none">
+			<div id="subjectsFields" class="row">
 				<div id="selectsSubjects" class="row">
+					<div class="row">
+						<div class="col-md-8">
+							<div class="row">
+								<div class="col-md-2">
+								</div>
+
+								<div class="col-md-3">
+									<label>Asignatura</label>
+								</div>
+
+								<div class="col-md-4">
+									@foreach($subjects_impart as $subject_impart)
+										<label id="subjectLabel">{{ $subject_impart -> name }}</label>
+									@endforeach
+
+									<select id="subject" name="subject" style="display:none;">
+										<option disabled="disabled" selected="selected">Seleccione una asignatura</option>
+
+										@foreach($subjects as $subject)
+											@if ($subject -> code === $subjects_impart[0] -> code)
+												<option value="{{ $subject -> code }}">{{ $subject -> name }}</option>
+											@else
+												<option value="{{ $subject -> code }}">{{ $subject -> name }}</option>
+											@endif
+										@endforeach
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 
 				<!--<div class="row">
@@ -270,9 +315,26 @@
 
 		<div class="row">
 			<div class="col-md-12">
-				<button id="save" class="btn btn-primary" onclick="save('', '{{ $type_user }}')">
-					Guardar
+				<button id="edit" class="btn btn-primary" onclick="edit()">
+				Editar
 				</button>
+
+				<div id="saveOptions" class="row" style="display: none">
+					<div class="col-md-5">
+					</div>
+
+					<div class="col-md-1">
+						<button id="save" class="btn btn-primary" onclick="save('{{ $teacher -> id }}', '{{ $type_user }}')">
+							Guardar
+						</button>
+					</div>
+
+					<div class="col-md-1">
+						<button id="cancel" class="btn btn-primary" onclick="cancel()">
+							Cancel
+						</button>
+					</div>
+				</div>
 			</div>
 		</div>
 

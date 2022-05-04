@@ -15,11 +15,8 @@ class GroupHavePreceptorController extends Controller {
 	}
 
 	public function show(Request $request) {
-		$output = new \Symfony\Component\Console\Output\ConsoleOutput();
-		$output->writeln($request);
 		$groupHavePreceptor = GroupHavePreceptor::getByCourseGroup($request -> course, $request -> group);
 
-		$output->writeln($groupHavePreceptor);
 		return response() -> json($groupHavePreceptor, 200);
 	}
 

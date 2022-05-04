@@ -35,17 +35,11 @@ function teachers($school, $person, $type_user) {
 	window.location.href = "/teachers/" + school + "/person/" + person + "?type_user=" + $type_user;
 }
 
-function legalGuardians($school, $person, $type_user) {
+function managers($school, $person, $type_user) {
 	var school = JSON.parse($school);
 	var person = JSON.parse($person);
 
-	window.location.href = "/messages/person/" + person;
-}
-
-function managers($person) {
-	var person = JSON.parse($person);
-
-	window.location.href = "/messages/person/" + person;
+	window.location.href = "/managers/" + school + "/person/" + person + "?type_user=" + $type_user;
 }
 
 function calendar($school, $person, $type_user) {
@@ -53,12 +47,6 @@ function calendar($school, $person, $type_user) {
 	var person = JSON.parse($person);
 
 	window.location.href = "/events/" + school + "/person/" + person + "?type_user=" + $type_user;
-}
-
-function events($person) {
-	var person = JSON.parse($person);
-
-	window.location.href = "/messages/person/" + person.id;
 }
 
 function help($person) {

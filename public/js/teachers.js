@@ -15,7 +15,7 @@ function editTeacher($school, $person, $type_user, teacher) {
 }
 
 function deleteTeacher($teacher) {
-	fetch("/deleteStudent", {
+	fetch("/deleteTeacher", {
 		method : "PUT",
 		body: JSON.stringify({
 			teacher : $teacher
@@ -139,7 +139,7 @@ function createOptionsColumns($school, $person, $type_user, teacherId, teachersT
 	teachersTable += "<div class=\"row\">"
 
 	teachersTable += "<div class=\"col-md-2\">";
-	teachersTable += "<button id=\"editButton\" class=\"btn btn-secondary\" data-bs-toggle=\"tooltip\" data-bs-placement=\"right\" title=\"Editar profesor\" onclick=\"editStudent('" + $school + "', '" + $person + "', '" +  $type_user + "', '" + teacherId + "')\">";
+	teachersTable += "<button id=\"editButton\" class=\"btn btn-secondary\" data-bs-toggle=\"tooltip\" data-bs-placement=\"right\" title=\"Editar profesor\" onclick=\"editTeacher('" + $school + "', '" + $person + "', '" +  $type_user + "', '" + teacherId + "')\">";
 	teachersTable += "<i class=\"fas fa-user-edit\"></i>";
 	teachersTable += "</button>";
 	teachersTable += "</div>";
@@ -148,7 +148,7 @@ function createOptionsColumns($school, $person, $type_user, teacherId, teachersT
 	teachersTable += "</div>";
 
 	teachersTable += "<div class=\"col-md-2\">";
-	teachersTable += "<button id=\"deleteButton\" class=\"btn btn-secondary\" data-bs-toggle=\"tooltip\" data-bs-placement=\"right\" title=\"Eliminar profesor\" onclick=\"deleteStudent('" + teacherId + "')\">";
+	teachersTable += "<button id=\"deleteButton\" class=\"btn btn-secondary\" data-bs-toggle=\"tooltip\" data-bs-placement=\"right\" title=\"Eliminar profesor\" onclick=\"deleteTeacher('" + teacherId + "')\">";
 	teachersTable += "<i class=\"fas fa-user-times\"></i>";
 	teachersTable += "</button>";
 	teachersTable += "</div>";
@@ -405,7 +405,7 @@ function savePerson($teacher, $type_user) {
 		}
 	}).then(response => {
 		return response.json();
-	}).then(data => {console.log(data);
+	}).then(data => {
 		saveTeacher(data.dni, $teacher);
 	}).catch(error => console.error(error));
 }
@@ -484,6 +484,74 @@ function saveImparts(person) {
 		window.history.go(-1);
 	}).catch(error => console.error(error));
 	//}
+}
+
+function edit() {
+	$("#teacherDNILabel").hide();
+	$("#teacherNameLabel").hide();
+	$("#teacherSurnamesLabel").hide();
+	$("#teacherPhoneLabel").hide();
+	$("#teacherEmailLabel").hide();
+	$("#teacherAddressLabel").hide();
+	$("#teacherLocationLabel").hide();
+	$("#teacherProvinceLabel").hide();
+	$("#teacherPostalCodeLabel").hide();
+	$("#courseLabel").hide();
+	$("#groupLabel").hide();
+	$("#preceptorLabel").hide();
+	$("#subjectLabel").hide();
+
+	$("#edit").hide();
+
+	$("#teacherDNI").show();
+	$("#teacherName").show();
+	$("#teacherSurnames").show();
+	$("#teacherPhone").show();
+	$("#teacherEmail").show();
+	$("#teacherAddress").show();
+	$("#teacherLocation").show();
+	$("#teacherProvince").show();
+	$("#teacherPostalCode").show();
+	$("#course").show();
+	$("#group").show();
+	$("#preceptorForm").show();
+	$("#subject").show();
+
+	$("#saveOptions").show();
+}
+
+function cancel() {
+	$("#teacherDNILabel").show();
+	$("#teacherNameLabel").show();
+	$("#teacherSurnamesLabel").show();
+	$("#teacherPhoneLabel").show();
+	$("#teacherEmailLabel").show();
+	$("#teacherAddressLabel").show();
+	$("#teacherLocationLabel").show();
+	$("#teacherProvinceLabel").show();
+	$("#teacherPostalCodeLabel").show();
+	$("#courseLabel").show();
+	$("#groupLabel").show();
+	$("#preceptorLabel").show();
+	$("#subjectLabel").show();
+
+	$("#edit").show();
+
+	$("#teacherDNI").hide();
+	$("#teacherName").hide();
+	$("#teacherSurnames").hide();
+	$("#teacherPhone").hide();
+	$("#teacherEmail").hide();
+	$("#teacherAddress").hide();
+	$("#teacherLocation").hide();
+	$("#teacherProvince").hide();
+	$("#teacherPostalCode").hide();
+	$("#course").hide();
+	$("#group").hide();
+	$("#preceptorForm").hide();
+	$("#subject").hide();
+
+	$("#saveOptions").hide();
 }
 
 function showErrors(errores) {

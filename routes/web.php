@@ -127,3 +127,11 @@ Route::post('/preceptor', [GroupHavePreceptorController::class, 'show']);
 Route::put('/newPreceptor', [GroupHavePreceptorController::class, 'insert']);
 
 Route::put('/newImpart', [ImpartController::class, 'insert']);
+
+Route::get('/managers/{id}/person/{person}', [ManagerController::class, 'showWeb']);
+Route::get('/managers/{id}/person/{person}/newManager', [ManagerController::class, 'newManager']);
+Route::get('/managers/{id}/person/{person}/editManager/{manager}', [ManagerController::class, 'editManager']);
+Route::post('/validateType', [ManagerController::class, 'validateType']);
+Route::put('/addManager', [ManagerController::class, 'insert']);
+Route::put('/updateManager', [ManagerController::class, 'update']);
+Route::put('/deleteManager', [ManagerController::class, 'delete']);
