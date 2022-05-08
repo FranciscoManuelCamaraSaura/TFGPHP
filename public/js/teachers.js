@@ -54,10 +54,6 @@ function validateCourse($school, $person, $type_user) {
 		}
 
 		$("#group").html(groupsSelect);
-		$("#h5subjectsFields").hide();
-		$("#subjectsFields").hide();
-		$("#selectsSubjects").html("");
-		$("#addSubject").show();
 	}).catch(error => console.error(error));
 }
 
@@ -159,15 +155,157 @@ function createOptionsColumns($school, $person, $type_user, teacherId, teachersT
 	return teachersTable;
 }
 
-function addSubject($school, $person, $type_user, option) {
-	fetch("/subjects", {
+function addPreceptor() {
+	if($("#preceptorData").is(":visible")) {
+		$("#preceptorData").hide();
+	} else {
+		$("#preceptorData").show();
+	}
+}
+
+function addSubject($school, $person, $courses, $type_user) {
+	var html = "";
+	var item = $("#selectsSubjects").find("select").length;
+
+	if(item > 0) {
+		item = item / 3;
+	}
+
+	html = "<div id=\"addSubjectContent" + item + "\" class=\"row\">";
+
+	html += "<div class=\"row\">"
+	html += createCourseSelect($school, $person, $courses, $type_user, item);
+	html += createGroupSelect($school, $person, $type_user, item);
+	html += "</div>";
+
+	html += "<div class=\"row\">"
+	html += createSubjectSelect(item);
+	html += createValidateButton(item);
+	html += "</div>";
+
+	html += "</div>";
+
+	$("#selectsSubjects").append(html);
+	$("#selectsSubjects").show();
+
+	var tooltipTriggerList = Array.prototype.slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+	var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+		return new bootstrap.Tooltip(tooltipTriggerEl);
+	});
+}
+
+function createCourseSelect($school, $person, $courses, $type_user, item) {
+	var html = "";
+	var courses = JSON.parse($courses);
+
+	html += "<div class=\"col-md-6\">";
+	html += "<div class=\"row\">";
+
+	html += "<div class=\"col-md-2\">";
+	html += "</div>";
+	html += "<div class=\"col-md-3\">";
+	html += "<label>Curso</label>";
+	html += "</div>";
+
+	html += "<select id=\"course" + item + "\" class=\"col-md-4\" onchange=\"validateCourseForSubject('" + $school + "', '" + $person + "', '" +  $type_user + "', " + item + ")\">";
+	html += "<option disabled=\"disabled\" selected=\"selected\">Seleccione un curso</option>";
+
+	courses.forEach(course => {
+		html += "<option value=\"" + course.id + "\">" + course.number + " " + course.degree + "</option>";
+	});
+
+	html += "</select>";
+
+	html += "</div>";
+	html += "</div>";
+
+	return html;
+}
+
+function createGroupSelect($school, $person, $type_user, item) {
+	var html = "";
+
+	html += "<div class=\"col-md-6\">";
+	html += "<div class=\"row\">";
+
+	html += "<div class=\"col-md-2\">";
+	html += "</div>";
+	html += "<div class=\"col-md-3\">";
+	html += "<label>Grupo</label>";
+	html += "</div>";
+
+	html += "<select id=\"group" + item + "\" class=\"col-md-4\" onchange=\"validateGroupForSubject('" + $school + "', '" + $person + "', '" +  $type_user + "', " + item + ")\">";
+	html += "<option disabled=\"disabled\" selected=\"selected\">Seleccione un grupo</option>";
+	html += "</select>";
+
+	html += "</div>";
+	html += "</div>";
+
+	return html;
+}
+
+function createSubjectSelect(item) {
+	var html = "";
+
+	html += "<div class=\"col-md-6\">";
+	html += "<div class=\"row\">";
+
+	html += "<div class=\"col-md-2\">";
+	html += "</div>";
+	html += "<div class=\"col-md-3\">";
+	html += "<label>Asignatura</label>";
+	html += "</div>";
+
+	html += "<select id=\"subject" + item + "\" class=\"col-md-4\">";
+	html += "<option disabled=\"disabled\" selected=\"selected\">Seleccione una asignatura</option>";
+	html += "</select>";
+
+	html += "</div>";
+	html += "</div>";
+
+	return html;
+}
+
+function createValidateButton(item) {
+	var html = "";
+
+	html += "<div class=\"col-md-6\">";
+	html += "<div class=\"row\">"
+
+	html += "<div class=\"col-md-2\">";
+	html += "</div>";
+
+	html += "<div class=\"col-md-2\">";
+	html += "<button id=\"validate" + item + "\" class=\"btn btn-outline-success\" data-bs-toggle=\"tooltip\" data-bs-placement=\"right\" title=\"Validar asignatura\" onclick=\"validateSubject(" + item + ")\">";
+	html += "<i class=\"fas fa-circle-check\"></i>";
+	html += "</button>";
+	html += "</div>";
+
+	html += "<div class=\"col-md-2\">";
+	html += "<button id=\"cancel" + item + "\" class=\"btn btn-outline-danger\" data-bs-toggle=\"tooltip\" data-bs-placement=\"right\" title=\"Cancelar\" onclick=\"cancelSubject(" + item + ")\">";
+	html += "<i class=\"fas fa-circle-xmark\"></i>";
+	html += "</button>";
+	html += "</div>";
+
+	html += "</div>";
+	html += "</div>";
+
+	return html;
+}
+
+function validateCourseForSubject($school, $person, $type_user, item) {
+	var course = "#course" + item + " option:selected";
+	var group = "#group" + item;
+	var subject = "#subject" + item;
+	var validate = "#validate" + item;
+
+	fetch("/group", {
 		method : "POST",
 		body: JSON.stringify({
 			school : $school,
 			person : $person,
-			type_user : $type_user,
-			course : $("#course option:selected").val(),
-			group : $("#group option:selected").val()
+			course : $(course).val(),
+			type_user : $type_user
 		}),
 		headers: {
 			"Content-Type": "application/json",
@@ -176,52 +314,141 @@ function addSubject($school, $person, $type_user, option) {
 	}).then(response => {
 		return response.json();
 	}).then(data => {
-		var subjectsSelect = createSubjectsSelect(data.subjects);
+		var groupsSelect = "<option disabled=\"disabled\" selected=\"selected\">Seleccione un grupo</option>";
+		var subjectSelect = "<option disabled=\"disabled\" selected=\"selected\">Seleccione una asignatura</option>";
 
-		if(option == 1) {
-			$("#h5subjectsFields").show();
-			$("#subjectsFields").show();
-			$("#selectsSubjects").html(subjectsSelect);
-		} else {
-			$("#selectsSubjects").append(subjectsSelect);
+		for (let i in data.groups) {
+			groupsSelect += "<option value=\"" + data.groups[i] + "\">" + data.groups[i] + "</option>";
 		}
+
+
+		$(group).html(groupsSelect);
+		$(subject).html(subjectSelect);
+		$(validate).removeAttr('disabled');
 	}).catch(error => console.error(error));
-
-	/*var selects = $("#selectsSubjects").find("select").length;
-
-	if ($("#course option:selected").text().includes("preschool") == true) {
-		$("#addSubject").hide();
-	} else if (selects > 4) {
-		$("#addSubject").hide();
-	}*/
 }
 
-function createSubjectsSelect(subjects) {
-	var subjectsSelect = "";
-	var idSelect = $("#selectsSubjects").find("select").length + 1;
+function validateGroupForSubject($school, $person, $type_user, item) {
+	var course = "#course" + item + " option:selected";
+	var group = "#group" + item + " option:selected";
+	var subject = "#subject" + item;
+	var validate = "#validate" + item;
 
-	subjectsSelect += "<div class=\"row\">";
-	subjectsSelect += "<div class=\"col-md-6\">";
-	subjectsSelect += "<div class=\"row\">";
-	subjectsSelect += "<div class=\"col-md-2\"></div>";
-	subjectsSelect += "<div class=\"col-md-3\">";
-	subjectsSelect += "<label>Asignatura</label>";
-	subjectsSelect += "</div>";
+	fetch("/subjects", {
+		method : "POST",
+		body: JSON.stringify({
+			school : $school,
+			person : $person,
+			course : $(course).val(),
+			group : $(group).val(),
+			type_user : $type_user
+		}),
+		headers: {
+			"Content-Type": "application/json",
+			"X-CSRF-Token": csrfToken
+		}
+	}).then(response => {
+		return response.json();
+	}).then(data => {
+		var subjectsSelect = "<option disabled=\"disabled\" selected=\"selected\">Seleccione una asignatura</option>";
 
-	subjectsSelect += "<select id=\"subject" + idSelect + "\" name=\"subject\">";
-	subjectsSelect += "<option disabled=\"disabled\" selected=\"selected\">Seleccione una asignatura</option>";
+		for (let i in data.subjects) {
+			subjectsSelect += "<option value=\"" + data.subjects[i].code + "\">" + data.subjects[i].name + "</option>";
+		}
 
-	for (let i in subjects) {
-		subjectsSelect += "<option value=\"" + subjects[i].code + "\">" + subjects[i].name + "</option>";
+		$(subject).html(subjectsSelect);
+		$(validate).removeAttr('disabled');
+	}).catch(error => console.error(error));
+}
+
+function validateSubject(item) {
+	var course = "#course" + item + " option:selected";
+	var group = "#group" + item + " option:selected";
+	var subject = "#subject" + item + " option:selected";
+	var validate = "#validate" + item;
+
+	if(validationSubjectData(item)) {
+		fetch("/checkImpart", {
+			method : "POST",
+			body: JSON.stringify({
+				course : $(course).val(),
+				group : $(group).val(),
+				subject : $(subject).val()
+			}),
+			headers: {
+				"Content-Type": "application/json",
+				"X-CSRF-Token": csrfToken
+			}
+		}).then(response => {
+			return response.json();
+		}).then(data => {
+			var courseSelect = "#course" + item;
+			var groupSelect = "#group" + item;
+			var subjectSelect = "#subject" + item;
+
+			if(data.message === "The subject does not have a teacher yet") {
+				$(courseSelect).css({'border': '2px solid #0f0'});
+				$(groupSelect).css({'border': '2px solid #0f0'});
+				$(subjectSelect).css({'border': '2px solid #0f0'});
+				$(validate).hide();
+			} else {
+				$(courseSelect).css({'border': '2px solid #f00'});
+				$(groupSelect).css({'border': '2px solid #f00'});
+				$(subjectSelect).css({'border': '2px solid #f00'});
+			}
+		}).catch(error => console.error(error));
+	}
+}
+
+function validationSubjectData(item) {
+	var course = "#course" + item + " option:selected";
+	var group = "#group" + item + " option:selected";
+	var subject = "#subject" + item + " option:selected";
+	var courseSelect = "#course" + item;
+	var groupSelect = "#group" + item;
+	var subjectSelect = "#subject" + item;
+
+	if($(course).text() === "Seleccione un curso") {
+		$(courseSelect).css({'border': '2px solid #f00'});
+
+		return false;
+	} else {
+		$(courseSelect).css({'border': '2px solid #000'});
 	}
 
-	subjectsSelect += "</select>";
+	if($(group).text() === "Seleccione un grupo") {
+		$(groupSelect).css({'border': '2px solid #f00'});
 
-	subjectsSelect += "</div>";
-	subjectsSelect += "</div>";
-	subjectsSelect += "</div>";
+		return false;
+	} else {
+		$(groupSelect).css({'border': '2px solid #000'});
+	}
 
-	return subjectsSelect;
+	if($(subject).text() === "Seleccione una asignatura") {
+		$(subjectSelect).css({'border': '2px solid #f00'});
+
+		return false;
+	} else {
+		$(subjectSelect).css({'border': '2px solid #000'});
+	}
+
+	return true;
+}
+
+function cancelSubject(item) {
+	var subject = "#addSubjectContent" + item;
+	var course = "course" + item;
+	var group = "group" + item;
+	var subjects = "subject" + item;
+	var validate = "validate" + item;
+	var cancel = "cancel" + item;
+
+	$(subject).hide();
+	//$(course).remove();
+	//$(group).remove();
+	//$(subjects).remove();
+	//$(validate).remove();
+	//$(cancel).remove();
 }
 
 function save($teacher, $type_user) {
@@ -367,9 +594,12 @@ function validationSchoolData() {
 
 	var selects = $("#selectsSubjects").find("select").length;
 
-	for(var i = 1; i <= selects; i++) {
-		if($("#subject" + i + " option:selected").text() === "Seleccione una asignatura") {
-			errores += "You must chouse a subject " + i + "<br>";
+	for(var i = 0; i < selects; i++) {
+		var subjectContent = "#addSubjectContent" + i;
+		var validate = "#validate" + i;
+
+		if($(subjectContent).is(":visible") && $(validate).is(":visible")) {
+			errores += "You must chouse a subject " + (i + 1) + "<br>";
 		}
 	}
 
@@ -463,27 +693,35 @@ function savePreceptor(person, $teacher) {
 }
 
 function saveImparts(person) {
-	//var selects = $("#selectsSubjects").find("select").length;
+	var selects = $("#selectsSubjects").find("select").length;
 
-	//for(var i = 1; i <= selects; i++) {
-	fetch("/newImpart", {
-		method : "PUT",
-		body: JSON.stringify({
-			teacher : person,
-			subject : $("#subject" + 1 + " option:selected").val(),
-			course : $("#course option:selected").val(),
-			group : $("#group option:selected").val()
-		}),
-		headers: {
-			"Content-Type": "application/json",
-			"X-CSRF-Token": csrfToken
+	for(var i = 0; i < selects; i++) {
+		var subjectContent = "#addSubjectContent" + i;
+
+		if($(subjectContent).is(":visible")) {
+			var course = "#course" + i + " option:selected";
+			var group = "#group" + i + " option:selected";
+			var subject = "#subject" + i + " option:selected";
+
+			fetch("/newImpart", {
+				method : "PUT",
+				body: JSON.stringify({
+					teacher : person,
+					subject : $(subject).val(),
+					course : $(course).val(),
+					group : $(group).val()
+				}),
+				headers: {
+					"Content-Type": "application/json",
+					"X-CSRF-Token": csrfToken
+				}
+			}).then(response => {
+				return response.json();
+			}).then(data => {
+				window.history.go(-1);
+			}).catch(error => console.error(error));
 		}
-	}).then(response => {
-		return response.json();
-	}).then(data => {
-		window.history.go(-1);
-	}).catch(error => console.error(error));
-	//}
+	}
 }
 
 function edit() {

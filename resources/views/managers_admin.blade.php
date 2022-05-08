@@ -61,7 +61,7 @@
 								@endphp
 
 								<div class="col-md-2">
-									<button id="editButton" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="right" title="Editar directivo" onclick="editTeacher('{{ $school }}', '{{ $person }}', ' {{ $type_user }}', '{{ $manager_id }}')">
+									<button id="editButton" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="right" title="Editar directivo" onclick="editManager('{{ $school }}', '{{ $person -> id }}', '{{ $type_user }}', '{{ $manager_id }}')">
 										<i class="fas fa-user-edit"></i>
 									</button>
 								</div>
@@ -71,9 +71,9 @@
 
 								<div class="col-md-2">
 									@if ($person -> id === $manager_id)
-										<button id="deleteButton" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="right" title="Eliminar directivo" onclick="deleteTeacher('{{ $manager_id }}')" disabled>
+										<button id="deleteButton" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="right" title="Eliminar directivo" onclick="deleteManager('{{ $manager_id }}')" disabled>
 									@else
-										<button id="deleteButton" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="right" title="Eliminar directivo" onclick="deleteTeacher('{{ $manager_id }}')">
+										<button id="deleteButton" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="right" title="Eliminar directivo" onclick="deleteManager('{{ $manager_id }}')">
 									@endif
 										<i class="fas fa-user-times"></i>
 									</button>

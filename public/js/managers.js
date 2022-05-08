@@ -9,7 +9,7 @@ function newManager($school, $person, $type_user) {
 
 function editManager($school, $person, $type_user, manager) {
 	var school = JSON.parse($school);
-	var person = JSON.parse($person);
+	var person = JSON.parse($person);console.log( $type_user);
 
 	window.location.href = "/managers/" + school + "/person/" + person + "/editManager/" + manager + "?type_user=" + $type_user;
 }
@@ -195,7 +195,7 @@ function savePerson($manager, $school, $type_user) {
 	}).then(response => {
 		return response.json();
 	}).then(data => {
-		saveManager(data.dni, $manager, $school);
+		saveManager(data.id, $manager, $school);
 	}).catch(error => console.error(error));
 }
 
@@ -234,6 +234,7 @@ function edit() {
 	$("#managerLocationLabel").hide();
 	$("#managerProvinceLabel").hide();
 	$("#managerPostalCodeLabel").hide();
+	$("#managerTypeLabel").hide();
 
 	$("#edit").hide();
 
@@ -246,6 +247,7 @@ function edit() {
 	$("#managerLocation").show();
 	$("#managerProvince").show();
 	$("#managerPostalCode").show();
+	$("#managerType").show();
 
 	$("#saveOptions").show();
 }
@@ -260,6 +262,7 @@ function cancel() {
 	$("#managerLocationLabel").show();
 	$("#managerProvinceLabel").show();
 	$("#managerPostalCodeLabel").show();
+	$("#managerTypeLabel").show();
 
 	$("#edit").show();
 
@@ -272,6 +275,7 @@ function cancel() {
 	$("#managerLocation").hide();
 	$("#managerProvince").hide();
 	$("#managerPostalCode").hide();
+	$("#managerType").hide();
 
 	$("#saveOptions").hide();
 }

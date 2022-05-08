@@ -60,6 +60,10 @@ class Impart extends Model {
 		return Impart::where('subject', '=', $subject) -> get();
 	}
 
+	public static function getTeacherByCourseGroupSubject($course_id, $group_words, $subject) {
+		return Impart::where('course_id', '=', $course_id) -> where('group_words', '=', $group_words) -> where('subject', '=', $subject) -> first();
+	}
+
 	protected static function newFactory(): ImpartFactory {
 		return ImpartFactory::new();
 	}

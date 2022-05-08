@@ -6,9 +6,19 @@ use App\Models\Impart;
 use Illuminate\Http\Request;
 
 class ImpartController extends Controller {
-	public function show(Request $request) {
+	public function showWeb(Request $request) {
 		$output = new \Symfony\Component\Console\Output\ConsoleOutput();
-		//$output->writeln($request);
+		// $output->writeln($request);
+		$impart = Impart::getTeacherByCourseGroupSubject($request -> course, $request -> group, $request -> subject);
+
+		if(!isset($impart)) {
+			return response() -> json(["message" => "The subject does not have a teacher yet"], 200);
+		} else {
+			return response() -> json(["message" => "The subject already has a teacher"], 200);
+		}
+	}
+
+	public function showApi(Request $request) {
 		$imparts = Impart::getByCourseGroup($request -> course_id, $request -> group_words);
 
 		return response() -> json($imparts, 200);

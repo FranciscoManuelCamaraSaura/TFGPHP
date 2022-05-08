@@ -156,9 +156,9 @@ function updatePassword($person, $type_user) {
 		$("#error").hide();
 		var url = "";
 
-		if ($type_user == "Teacher") {
+		if ($type_user === "Teacher") {
 			url = "/password/teacher";
-		} else if ($type_user == "Manager") {
+		} else if ($type_user === "Manager" || $type_user === "Admin") {
 			url = "/password/manager";
 		}
 
@@ -202,7 +202,7 @@ function validationFields() {
 		errores += "The old password must be diferent of the new password" + "<br>";
 	}
 
-	if($("#oldPasswordInput").val() !== "" && $("#repeatNewPasswordInput").val() !== "" && $("#oldPasswordInput").val() !== $("#repeatNewPasswordInput").val()) {
+	if($("#newPasswordInput").val() !== "" && $("#repeatNewPasswordInput").val() !== "" && $("#newPasswordInput").val() !== $("#repeatNewPasswordInput").val()) {
 		errores += "You must repeat the new password";
 	}
 

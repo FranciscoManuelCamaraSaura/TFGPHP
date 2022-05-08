@@ -173,11 +173,27 @@
 							<div class="col-md-3">
 							</div>
 
+							<div class="form-check col-md-9">
+								<input id="preceptor" class="form-check-input" type="checkbox" value="" onclick="addPreceptor()">
+								<label class="form-check-label" for="massive">
+									Asignar como tutor del curso
+								</label>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div id="preceptorData" class="row" style="display: none">
+					<div class="col-md-4">
+						<div class="row">
+							<div class="col-md-3">
+							</div>
+
 							<div class="col-md-3">
 								<label>Curso</label>
 							</div>
 
-							<select id="course" onchange="validateCourse('{{ $school }}', '{{ $person -> id }}', '{{ $type_user }}', 2)">
+							<select id="course" onchange="validateCourse('{{ $school }}', '{{ $person -> id }}', '{{ $type_user }}')">
 								<option disabled="disabled" selected="selected">Seleccione un curso</option>
 
 								@foreach($courses as $course)
@@ -196,46 +212,30 @@
 								<label>Grupo</label>
 							</div>
 
-							<select id="group" onchange="addSubject('{{ $school }}', '{{ $person -> id }}', '{{ $type_user }}', 1)">
+							<select id="group">
 								<option disabled="disabled" selected="selected">Seleccione un grupo</option>
 							</select>
 						</div>
 					</div>
 				</div>
-
-				<div class="row">
-					<div class="col-md-4">
-						<div class="row">
-							<div class="col-md-3">
-							</div>
-
-							<div class="form-check col-md-9">
-								<input id="preceptor" class="form-check-input" type="checkbox" value="">
-								<label class="form-check-label" for="massive">
-									Asignar como tutor del curso
-								</label>
-							</div>
-						</div>
-					</div>
-				</div>
 			</div>
 
-			<h5 id="h5subjectsFields" style="display: none">Datos de las asignaturas</h5>
+			<h5>Datos de las asignaturas</h5>
 
-			<div id="subjectsFields" class="row" style="display: none">
-				<div id="selectsSubjects" class="row">
+			<div id="subjectsFields" class="row">
+				<div id="selectsSubjects" class="row" style="display: none">
 				</div>
 
-				<!--<div class="row">
+				<div class="row">
 					<div class="col-md-1">
 					</div>
 
 					<div class="col-md-2">
-						<a id="addSubject" class="enlace" onclick="addSubject('{{ $school }}', '{{ $person -> id }}', '{{ $type_user }}', 2)">
+						<a id="addSubject" class="enlace" onclick="addSubject('{{ $school }}', '{{ $person -> id }}', '{{ $courses }}', '{{ $type_user }}')">
 							<i class="fas fa-plus-circle"></i> Añadir asignatura
 						</a>
 					</div>
-				</div>-->
+				</div>
 			</div>
 		</div>
 

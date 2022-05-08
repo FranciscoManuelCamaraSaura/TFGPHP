@@ -154,6 +154,32 @@ class ManagerController extends Controller {
 		}
 	}
 
+	public function editManager(Request $request) {
+		if(isset($request -> id) && isset($request -> person)) {
+			$managers = array();
+			$positions = ['director', 'subdirector', 'administrative', 'psychopedagogue'];
+
+			$school = $request -> id;
+			$person = Person::findOrFail($request -> person);
+			$type_user = $request -> type_user;
+
+			$manager = Person::findOrFail($request -> manager);
+			$type_admin["type"] = Manager::getDNIPerson($manager -> dni) -> type_admin;
+			$type_admin["description"] = $this -> getManagerType($type_admin["type"]);
+
+			foreach($positions as $position) {
+				$manager_type["type"] = $position;
+				$manager_type["description"] = $this -> getManagerType($position);
+
+				$managers[] = $manager_type;
+			}
+
+			return view("edit_manager", compact("school", "person", "manager", "type_admin", "managers", "type_user"));
+		} else {
+			return response() -> json(["message" => "Invalid person"], 400);
+		}
+	}
+
 	private function getManagerType($type_admin) {
 		$type_admin_conversion = "";
 
@@ -201,17 +227,38 @@ class ManagerController extends Controller {
 	}
 
 	public function update(Request $request) {
-		$person = Person::findOrFail($request -> person);
-		$manager = Manager::getDNIPerson($person -> dni);
+		if(isset($request -> person)) {
+			$person = Person::findOrFail($request -> person);
+			$manager = Manager::getDNIPerson($person -> dni);
 
-		if($manager -> password !== $request -> oldPassword) {
-			$manager -> password = $request -> input('newPassword');
+			if($manager -> password === $request -> oldPassword) {
+				$manager -> password = $request -> input('newPassword');
+
+				$manager -> save();
+
+				return response() -> json($manager, 200);
+			} else {
+				return response() -> json(["message" => "The new password must be different"], 200);
+			}
+		} else {
+			$person = Person::findOrFail($request -> manager);
+			$manager = Manager::getDNIPerson($person -> dni);
+
+			$manager -> type_admin = $request -> input("type_admin");
 
 			$manager -> save();
 
 			return response() -> json($manager, 200);
-		} else {
-			return response() -> json(["message" => "The new password must be different"], 200);
 		}
+	}
+
+	public function delete(Request $request) {
+		$person = Person::findOrFail($request -> manager);
+		$manager = Manager::getDNIPerson($person -> dni);
+
+		$manager -> delete();
+		$person -> delete();
+
+		return response() -> json(200);
 	}
 }

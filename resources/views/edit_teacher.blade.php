@@ -1,8 +1,8 @@
 @extends('layouts.master')
-@section('title', 'Nuevo estudiante')
+@section('title', 'Editar profesor')
 @section('content')
 	<div id="editTeacher" class="container">
-		<h2>Nuevo estudiante</h2>
+		<h2>Editar profesor</h2>
 
 		<div class="row">
 			<div class="col-md-3">

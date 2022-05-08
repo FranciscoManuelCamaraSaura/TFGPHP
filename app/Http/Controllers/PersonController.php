@@ -61,8 +61,8 @@ class PersonController extends Controller {
 			$person = Person::getDNIPerson($request -> dni);
 		} else if (isset($request -> person)) {
 			$person = Person::findOrFail($request -> person);
-		} else if (isset($request -> legalGuardianDNI)) {
-			$person = Person::getDNIPerson($request -> legalGuardianDNI);
+		} else if (isset($request -> dni)) {
+			$person = Person::getDNIPerson($request -> dni);
 		}
 
 		if (!isset($request -> type_user)) {
@@ -89,7 +89,7 @@ class PersonController extends Controller {
 				"province" => "required|string",
 				"phone" => "required|integer",
 				"email" => "required|email",
-				"postalCode" => "required|string"
+				"postal_code" => "required|string"
 			]);
 
 			$person -> dni = $request -> input("dni");

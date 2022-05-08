@@ -51,7 +51,7 @@ Route::get('/student', [StudentController::class, 'index']);
 Route::get('/student/{legal_guardian}', [StudentController::class, 'showApi']);
 
 // Impart routes
-Route::get('/impart', [ImpartController::class, 'show']);
+Route::get('/impart', [ImpartController::class, 'showApi']);
 
 // Group have Preceptor routes
 Route::get('/groupHavePreceptor', [GroupHavePreceptorController::class, 'show']);
