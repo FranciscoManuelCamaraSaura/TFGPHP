@@ -181,6 +181,11 @@
 							</div>
 						</div>
 					</div>
+
+					<div class="col-md-4">
+						<div id="errorPreceptor" class="alert alert-danger" style="display:none;">
+						</div>
+					</div>
 				</div>
 
 				<div id="preceptorData" class="row" style="display: none">
@@ -231,7 +236,7 @@
 					</div>
 
 					<div class="col-md-2">
-						<a id="addSubject" class="enlace" onclick="addSubject('{{ $school }}', '{{ $person -> id }}', '{{ $courses }}', '{{ $type_user }}')">
+						<a id="addSubject" class="enlace" onclick="addSubject('{{ $school }}', '{{ $person -> id }}', '{{ $type_user }}')">
 							<i class="fas fa-plus-circle"></i> Añadir asignatura
 						</a>
 					</div>

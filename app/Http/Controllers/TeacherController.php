@@ -160,24 +160,47 @@ class TeacherController extends Controller {
 			$teacher = Person::findOrFail($request -> teacher);
 			$type_user = $request -> type_user;
 			$imparts = Impart::getCoursesGroups($teacher -> dni);
+			$is_preceptor = Teacher::getDNIPerson($teacher -> dni) -> preceptor;
+			$courses = Course::getCourses($school);
 
-			$course_default = Course::findOrFail($imparts[0] -> course_id);
-			$group_default = $imparts[0] -> group_words;
-
-			foreach($imparts as $impart) {
-				$subjects_impart[] = Subject::getSubjectByCode($impart -> subject);
+			if($is_preceptor === true) {
+				$preceptor = GroupHavePreceptor::getByPreceptor($teacher -> dni);
+				
+				$course_default = Course::findOrFail($preceptor -> course_id);
+				$group_default = $preceptor -> group_words;
+				$groups = $this -> getGroups($course_default -> number);
+			} else {
+				$course_default = "";
+				$group_default = "";
+				$groups = "";
 			}
 
-			$subjects = $this -> getByDegree($course_default -> degree, $course_default -> number, $group_default);
+			foreach($imparts as $impart) {
+				$course = Course::findOrFail($impart -> course_id);
+				$subjects["course"] = $course;
+				$subjects["group"] = $impart -> group_words;
+				$subjects["groups"] = $this -> getGroups($impart -> course_id);
+				$subjects["subject"] = Subject::getSubjectByCode($impart -> subject);
+				$subjects["subjects"] = $this -> getByDegree($course -> degree, $course -> number, $impart -> group_words);
 
-			$courses = Course::getCourses($school);
-			$groups = Group::getGroups($course_default -> number);
-			$is_preceptor = Teacher::getDNIPerson($teacher -> dni) -> preceptor;
+				$subjects_impart[] = $subjects;
+			}
 
-			return view("edit_teacher", compact("school", "person", "teacher", "courses", "course_default", "groups", "group_default", "subjects_impart", "subjects", "is_preceptor", "type_user"));
+			return view("edit_teacher", compact("school", "person", "teacher", "courses", "course_default", "groups", "group_default", "subjects_impart", "is_preceptor", "type_user"));
 		} else {
 			return response() -> json(["message" => "Invalid person"], 400);
 		}
+	}
+
+	private function getGroups($course_id) {
+		$groups = array();
+		$group_words = Group::getGroups($course_id);
+
+		foreach($group_words as $group) {
+			$groups[] = $group -> group_words;
+		}
+
+		return $groups;
 	}
 
 	private function getByDegree($degree, $number, $group) {

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Impart;
+use App\Models\Person;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 
 class ImpartController extends Controller {
@@ -14,7 +16,17 @@ class ImpartController extends Controller {
 		if(!isset($impart)) {
 			return response() -> json(["message" => "The subject does not have a teacher yet"], 200);
 		} else {
-			return response() -> json(["message" => "The subject already has a teacher"], 200);
+			if(isset($request -> teacher)) {
+				$person = Person::findOrFail($request -> teacher);
+
+				if($impart -> teacher === $person -> dni) {
+					return response() -> json(["message" => "The subject does not have a teacher yet"], 200);
+				} else {
+					return response() -> json(["message" => "The subject already has a teacher"], 200);
+				}
+			} else {
+				return response() -> json(["message" => "The subject already has a teacher"], 200);
+			}
 		}
 	}
 
@@ -42,5 +54,19 @@ class ImpartController extends Controller {
 		$impart -> save();
 
 		return response() -> json($impart, 200);
+	}
+
+	public function update(Request $request) {
+		
+	}
+
+	public function delete(Request $request) {
+		$imparts = Impart::getSubjects($request -> teacher);
+
+		foreach($imparts as $impart) {
+			$impart -> delete();
+		}
+
+		return response() -> json($imparts, 200);
 	}
 }

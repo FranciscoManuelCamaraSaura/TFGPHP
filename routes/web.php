@@ -125,9 +125,13 @@ Route::put('/deleteTeacher', [TeacherController::class, 'delete']);
 
 Route::post('/preceptor', [GroupHavePreceptorController::class, 'show']);
 Route::put('/newPreceptor', [GroupHavePreceptorController::class, 'insert']);
+Route::put('/updatePreceptor', [GroupHavePreceptorController::class, 'update']);
+Route::put('/deletePreceptor', [GroupHavePreceptorController::class, 'delete']);
 
 Route::post('/checkImpart', [ImpartController::class, 'showWeb']);
 Route::put('/newImpart', [ImpartController::class, 'insert']);
+Route::put('/updateImpart', [ImpartController::class, 'update']);
+Route::put('/deleteImpart', [ImpartController::class, 'delete']);
 
 Route::get('/managers/{id}/person/{person}', [ManagerController::class, 'showWeb']);
 Route::get('/managers/{id}/person/{person}/newManager', [ManagerController::class, 'newManager']);
