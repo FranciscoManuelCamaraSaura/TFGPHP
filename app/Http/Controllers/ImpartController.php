@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Impart;
 use App\Models\Person;
-use App\Models\Teacher;
 use Illuminate\Http\Request;
 
 class ImpartController extends Controller {

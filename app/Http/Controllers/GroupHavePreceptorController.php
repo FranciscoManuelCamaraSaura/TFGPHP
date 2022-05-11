@@ -67,8 +67,7 @@ class GroupHavePreceptorController extends Controller {
 	}
 
 	public function delete(Request $request) {
-		$person = Person::findOrFail($request -> preceptor);
-		$preceptor = GroupHavePreceptor::getByPreceptor($person -> dni);
+		$preceptor = GroupHavePreceptor::getByPreceptor($request -> preceptor);
 
 		$preceptor -> delete();
 

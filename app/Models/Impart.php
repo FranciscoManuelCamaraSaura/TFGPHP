@@ -10,6 +10,7 @@ class Impart extends Model {
 	use HasFactory;
 
 	protected $table = 'impart';
+	protected $guarded = 'id';
 
 	protected $fillable = [
 		'course_id',

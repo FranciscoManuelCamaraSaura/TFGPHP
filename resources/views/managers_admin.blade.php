@@ -23,11 +23,11 @@
 				<div class="col-md-1">
 				</div>
 
-				<div class="col-md-2">
+				<div class="col-md-3">
 					<label>Nombre</label>
 				</div>
 
-				<div class="col-md-5">
+				<div class="col-md-4">
 					<label>Cargo</label>
 				</div>
 
@@ -46,11 +46,11 @@
 						<div class="col-md-1">
 						</div>
 
-						<div class="col-md-2">
-							<a href="{{ URL::asset('/managers/' . $school . '/person/' . $person -> id . '/manager/' . $manager['id'] . '?type_user=' . $type_user) }}">{{ $manager['name'] }} {{ $manager['surnames'] }}</a>
+						<div class="col-md-3">
+							<label>{{ $manager['name'] }} {{ $manager['surnames'] }}</label>
 						</div>
 
-						<div class="col-md-5">
+						<div class="col-md-4">
 							<label>{{ $manager['type_admin'] }}</label>
 						</div>
 

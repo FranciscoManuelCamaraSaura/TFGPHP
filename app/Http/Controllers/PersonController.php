@@ -39,21 +39,27 @@ class PersonController extends Controller {
 			"postal_code" => "required|string"
 		]);
 
-		$person = new Person([
-			'dni' => $request -> dni,
-			'name' => $request -> name,
-			'surnames' => $request -> surnames,
-			'address' => $request -> address,
-			'location' => $request -> location,
-			'province' => $request -> province,
-			'phone' => $request -> phone,
-			'email' => $request -> email,
-			'postal_code' => $request -> postal_code
-		]);
+		$person = Person::getDNIPerson($request -> dni);
 
-		$person -> save();
+		if(!isset($person)) {
+			$person = new Person([
+				'dni' => $request -> dni,
+				'name' => $request -> name,
+				'surnames' => $request -> surnames,
+				'address' => $request -> address,
+				'location' => $request -> location,
+				'province' => $request -> province,
+				'phone' => $request -> phone,
+				'email' => $request -> email,
+				'postal_code' => $request -> postal_code
+			]);
 
-		return response() -> json($person, 200);
+			$person -> save();
+	
+			return response() -> json($person, 200);
+		} else {
+			return response() -> json(["message" => "The identifier already exists"], 400);
+		}
 	}
 
 	public function update(Request $request) {
@@ -79,32 +85,42 @@ class PersonController extends Controller {
 			$person -> province = $request -> input("province");
 			$person -> phone = $request -> input("phone");
 			$person -> email = $request -> input("email");
+
+			$person -> save();
+	
+			return response() -> json($person, 200);
 		} else if ($request -> type_user === "Admin") {
-			$request -> validate([
-				"dni" => "required|string",
-				"name" => "required|string",
-				"surnames" => "required|string",
-				"address" => "required|string",
-				"location" => "required|string",
-				"province" => "required|string",
-				"phone" => "required|integer",
-				"email" => "required|email",
-				"postal_code" => "required|string"
-			]);
+			$updatePerson = Person::getDNIPerson($request -> dni);
 
-			$person -> dni = $request -> input("dni");
-			$person -> name = $request -> input("name");
-			$person -> surnames = $request -> input("surnames");
-			$person -> address = $request -> input("address");
-			$person -> location = $request -> input("location");
-			$person -> province = $request -> input("province");
-			$person -> phone = $request -> input("phone");
-			$person -> email = $request -> input("email");
-			$person -> postal_code = $request -> input("postal_code");
+			if(!isset($updatePerson)) {
+				$request -> validate([
+					"dni" => "required|string",
+					"name" => "required|string",
+					"surnames" => "required|string",
+					"address" => "required|string",
+					"location" => "required|string",
+					"province" => "required|string",
+					"phone" => "required|integer",
+					"email" => "required|email",
+					"postal_code" => "required|string"
+				]);
+
+				$person -> dni = $request -> input("dni");
+				$person -> name = $request -> input("name");
+				$person -> surnames = $request -> input("surnames");
+				$person -> address = $request -> input("address");
+				$person -> location = $request -> input("location");
+				$person -> province = $request -> input("province");
+				$person -> phone = $request -> input("phone");
+				$person -> email = $request -> input("email");
+				$person -> postal_code = $request -> input("postal_code");
+
+				$person -> save();
+		
+				return response() -> json($person, 200);
+			} else {
+				return response() -> json(["message" => "The identifier already exists"], 400);
+			}
 		}
-
-		$person -> save();
-
-		return response() -> json($person, 200);
 	}
 }

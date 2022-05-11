@@ -103,19 +103,14 @@ function createImpartColumns($school, $person, $type_user, teachers, teachersTab
 	teachersTable += "<div class=\"row\">";
 	teachersTable += "<div class=\"col-md-1\"></div>";
 
-	if($type_user === "Teacher" || $type_user === "Manager") {
-		teachersTable += "<div class=\"col-md-3\">";
-	} else {
-		teachersTable += "<div class=\"col-md-2\">";
-	}
-
+	teachersTable += "<div class=\"col-md-3\">";
 	teachersTable += "<a href=\"http://schoolmanager:8080/teachers/" + $school + "/person/" + $person + "/teacher/" + teachers['id'] + "?type_user=" + $type_user + "\">" + teachers['teacherName'] + "</a>";
 	teachersTable += "</div>";
 
 	if($type_user === "Teacher" || $type_user === "Manager") {
 		teachersTable += "<div class=\"col-md-8\">";
 	} else {
-		teachersTable += "<div class=\"col-md-5\">";
+		teachersTable += "<div class=\"col-md-4\">";
 	}
 
 	teachersTable += "<a href=\"http://schoolmanager:8080/subjects/" + $school + "/person/" + $person + "/subject/" + teachers['code'] + "?type_user=" + $type_user + "\">" + teachers['subjectName'] + "</a>";
@@ -131,7 +126,7 @@ function createImpartColumns($school, $person, $type_user, teachers, teachersTab
 }
 
 function createOptionsColumns($school, $person, $type_user, teacherId, teachersTable) {
-	teachersTable += "<div class=\"col-md-4\">";
+	teachersTable += "<div class=\"col-md-3\">";
 	teachersTable += "<div class=\"row\">"
 
 	teachersTable += "<div class=\"col-md-2\">";
@@ -140,7 +135,7 @@ function createOptionsColumns($school, $person, $type_user, teacherId, teachersT
 	teachersTable += "</button>";
 	teachersTable += "</div>";
 
-	teachersTable += "<div class=\"col-md-1\">";
+	teachersTable += "<div class=\"col-md-2\">";
 	teachersTable += "</div>";
 
 	teachersTable += "<div class=\"col-md-2\">";
@@ -701,7 +696,7 @@ function saveTeacher(person, $teacher) {
 			deleteImparts(person);
 		}
 
-		saveImparts(person, $teacher);
+		saveImparts(person);
 	}).catch(error => console.error(error));
 }
 
@@ -745,7 +740,7 @@ function deletePreceptor(person) {
 	}).catch(error => console.error(error));
 }
 
-function saveImparts(person, $teacher) {
+function saveImparts(person) {
 	var selects = $("#selectsSubjects").find("select").length;
 
 	for(var i = 0; i < selects; i++) {
@@ -790,7 +785,6 @@ function deleteImparts(person) {
 	}).then(response => {
 		return response.json();
 	}).then(data => {
-		window.history.go(-1);
 	}).catch(error => console.error(error));
 }
 

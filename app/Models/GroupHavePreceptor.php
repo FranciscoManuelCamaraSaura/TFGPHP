@@ -10,6 +10,7 @@ class GroupHavePreceptor extends Model {
 	use HasFactory;
 
 	protected $table = 'group_have_preceptor';
+	protected $guarded = 'id';
 
 	protected $fillable = [
 		'course_id',

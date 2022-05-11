@@ -12,12 +12,13 @@ class CreateImpartTable extends Migration {
 	 */
 	public function up() {
 		Schema::create('impart', function (Blueprint $table) {
+			$table -> increments('id');
 			$table -> integer('course_id');
 			$table -> string('group_words', 1);
 			$table -> string('subject');
 			$table -> string('teacher');
 
-			$table -> primary(array('course_id', 'group_words', 'subject'));
+			$table -> unique(array('course_id', 'group_words', 'subject'));
 
 			$table -> foreign(array('course_id', 'group_words'))
 				-> references(array('course_id', 'group_words'))

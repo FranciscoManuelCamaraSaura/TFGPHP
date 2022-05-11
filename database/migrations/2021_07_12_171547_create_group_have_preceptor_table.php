@@ -12,11 +12,12 @@ class CreateGroupHavePreceptorTable extends Migration {
 	 */
 	public function up() {
 		Schema::create('group_have_preceptor', function (Blueprint $table) {
+			$table -> increments('id');
 			$table -> integer('course_id');
 			$table -> string('group_words', 1);
 			$table -> string('preceptor');
 
-			$table -> primary(array('course_id', 'group_words', 'preceptor'));
+			$table -> unique(array('course_id', 'group_words', 'preceptor'));
 
 			$table -> foreign(array('course_id', 'group_words'))
 				-> references(array('course_id', 'group_words'))

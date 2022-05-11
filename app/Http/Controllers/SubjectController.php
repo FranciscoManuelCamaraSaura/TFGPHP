@@ -56,7 +56,7 @@ class SubjectController extends Controller {
 
 			if($type_user === "Teacher") {
 				$imparts = Impart::getCourseGroup($request -> code, $person -> dni);
-			} else if($type_user === "Manager") {
+			} else if($type_user === "Manager" || $type_user === "Admin") {
 				$imparts = Impart::getTeachersBySubject($request -> code);
 			}
 
@@ -65,7 +65,7 @@ class SubjectController extends Controller {
 
 				if($course -> school === $school && $type_user === "Teacher") {
 					$students = Student::getGroup($impart -> course_id, $impart -> group_words);
-				} else if($course -> school === $school && $type_user === "Manager") {
+				} else if($course -> school === $school && ($type_user === "Manager" || $type_user === "Admin")) {
 					$teachers[] = Person::getDNIPerson($impart -> teacher);
 				}
 			}

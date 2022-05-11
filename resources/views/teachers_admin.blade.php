@@ -60,11 +60,11 @@
 				<div class="col-md-1">
 				</div>
 
-				<div class="col-md-2">
+				<div class="col-md-3">
 					<label>Nombre</label>
 				</div>
 
-				<div class="col-md-5">
+				<div class="col-md-4">
 					<label>Asignatura</label>
 				</div>
 

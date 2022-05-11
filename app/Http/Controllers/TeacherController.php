@@ -124,17 +124,27 @@ class TeacherController extends Controller {
 	}
 
 	public function update(Request $request) {
-		$person = Person::findOrFail($request -> person);
-		$teacher = Teacher::getDNIPerson($person -> dni);
+		if(isset($request -> person)) {
+			$person = Person::findOrFail($request -> person);
+			$teacher = Teacher::getDNIPerson($person -> dni);
 
-		if($teacher -> password === $request -> oldPassword) {
-			$teacher -> password = $request -> input('newPassword');
+			if($teacher -> password === $request -> oldPassword) {
+				$teacher -> password = $request -> input('newPassword');
+
+				$teacher -> save();
+
+				return response() -> json($teacher, 200);
+			} else {
+				return response() -> json(["message" => "The new password must be different"], 200);
+			}
+		} else {
+			$teacher = Teacher::getDNIPerson($request -> teacher);
+
+			$teacher -> preceptor = $request -> input("preceptor");
 
 			$teacher -> save();
 
 			return response() -> json($teacher, 200);
-		} else {
-			return response() -> json(["message" => "The new password must be different"], 200);
 		}
 	}
 
