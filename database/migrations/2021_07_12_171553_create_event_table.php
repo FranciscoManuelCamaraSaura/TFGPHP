@@ -18,7 +18,7 @@ class CreateEventTable extends Migration {
 			$table -> integer('duration');
 			$table -> string('date');
 			$table -> integer('school');
-			$table -> integer('responsable');
+			$table -> string('responsable');
 
 			$table -> foreign('school')
 				-> references('id')
