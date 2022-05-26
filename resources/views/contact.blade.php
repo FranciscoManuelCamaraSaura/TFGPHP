@@ -50,7 +50,7 @@
 							<p>School Manager</p>
 							<p>Francisco Manuel Cámara Saura</p>
 							<p>Trabajo de fin de grado de la titulación del Grado en Ingeniería Informática de la Universidad de Alicante</p>
-							<p>Teléfono: 657600986</p>
+							<p>Teléfono: XXX XXX XXX</p>
 							<p>Email: fmcs@alu.ua.es</p>
 						</address>
 
