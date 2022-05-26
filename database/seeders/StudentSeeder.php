@@ -6,7 +6,6 @@ use App\Models\LegalGuardian;
 use App\Models\Person;
 use App\Models\Student;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class StudentSeeder extends Seeder {
 	/**

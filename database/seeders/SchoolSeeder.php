@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Manager;
 use App\Models\School;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class SchoolSeeder extends Seeder {
 	/**
