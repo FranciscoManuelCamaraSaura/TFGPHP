@@ -16,7 +16,7 @@ class CreateGroupTable extends Migration {
 			$table -> integer('course_id');
 			$table -> string('group_words', 1);
 
-			$table -> primary(array('course_id', 'group_words'));
+			$table -> unique(array('course_id', 'group_words'));
 
 			$table -> foreign('course_id')
 				-> references('id') -> on('course')

@@ -36,7 +36,7 @@ class CreateSubjectTable extends Migration {
 										'Específicas de opción (2 Random)',
 										'Libre configuración autonómica (voluntaria)'));
 
-			$table -> primary('code');
+			$table -> unique('code');
 
 			$table -> timestamps();
 		});
