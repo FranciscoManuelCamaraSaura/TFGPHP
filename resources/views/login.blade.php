@@ -23,7 +23,7 @@
 
 			<select id="type_user" class="col-md-4">
 				<option disabled="disabled" selected="selected">Seleccione un tipo de usuario</option>
-				<option>Super Admin</option>
+				<!--<option>Super Admin</option>-->
 				<option>Manager</option>
 				<option>Teacher</option>
 			</select>

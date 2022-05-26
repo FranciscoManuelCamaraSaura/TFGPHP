@@ -6,6 +6,7 @@
 
 		<div class="row">
 			<div class="col-md-2">
+				<!--<img src="{{ asset('images') }}" alt="" />-->
 			</div>
 
 			<div class="col-md-5">
@@ -87,7 +88,7 @@
 					</div>
 				</div>
 			</div>
-			
+
 			<div class="col-md-4">
 				<div class="row">
 					<div class="col-md-2">

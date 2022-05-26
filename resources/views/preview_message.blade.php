@@ -6,7 +6,7 @@
 
 		<div class="row">
 			<div class="col-md-4">
-				<img src="{{ asset('images/home/logo.png') }}" alt="" />
+				<!--<img src="{{ asset('images') }}" alt="" />-->
 			</div>
 
 			<div class="col-md-5">

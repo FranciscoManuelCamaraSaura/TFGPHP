@@ -296,11 +296,8 @@
 	</div>
 
 	<script src="{{ asset('js/events.js') }}"></script>
-	<!--<script src="{{ asset('js/moment.min.js') }}"></script>-->
 	<script src="{{ asset('js/bootstrap-datepicker.js') }}"></script>
 	<script src="{{ asset('js/bootstrap-datepicker.es.js') }}"></script>
-	<!--<script src="{{ asset('js/bootstrap-timepicker.js') }}"></script>-->
-	<!--<script src="{{ asset('js/bootstrap-datetimepicker.js') }}"></script>-->
 	<script type="text/javascript">
 		window.onload = function() {
 			createDataPicker();

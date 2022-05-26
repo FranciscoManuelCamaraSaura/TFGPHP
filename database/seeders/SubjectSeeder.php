@@ -654,8 +654,8 @@ class SubjectSeeder extends Seeder {
 	public function makePreschoolSubjects($degreeCodes, $subjectType, $preschoolCourse) {
 		$subject = new Subject([
 			'code' => $degreeCodes[0] . '_' . $preschoolCourse,
-			'name' => 'Explocarión del mundo ' . $preschoolCourse,
-			'description' => 'Explocarión del mundo ' . $preschoolCourse . ' del grado de ' . $degreeCodes[1],
+			'name' => 'Exploración del mundo ' . $preschoolCourse,
+			'description' => 'Exploración del mundo ' . $preschoolCourse . ' del grado de ' . $degreeCodes[1],
 			'degree' => $degreeCodes[1],
 			'number' => $preschoolCourse,
 			'type' => $subjectType[1]

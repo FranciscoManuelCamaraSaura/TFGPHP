@@ -10,15 +10,12 @@
 		<link href="{{ URL::asset('css/bootstrap.css') }}" rel="stylesheet" type="text/css">
 		<link href="{{ URL::asset('css/app.css') }}" rel="stylesheet" type="text/css">
 		<link href="{{ URL::asset('css/bootstrap-datepicker3.css') }}" rel="stylesheet" type="text/css">
-		<!--<link href="{{ URL::asset('css/bootstrap-timepicker.css') }}" rel="stylesheet" type="text/css">-->
-		<!--<link href="{{ URL::asset('css/bootstrap-datetimepicker.css') }}" rel="stylesheet" type="text/css">-->
 		<link href="{{ URL::asset('css/fontawesome.css') }}" rel="stylesheet" type="text/css">
 		<script src="{{ asset('js/jquery.js') }}"></script>
 	</head>
 
 	<body>
 		@include("header")
-		@include("menu")
 
 		@if ($person !== "" || request() -> segment(0) !== "prelogin")
 			@yield("content")

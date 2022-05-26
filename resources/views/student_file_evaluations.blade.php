@@ -1,16 +1,16 @@
 @extends('layouts.master')
-@section('title', 'Asignaturas')
+@section('title', 'Alumno')
 @section('content')
 	<div id="studentFileEvaluation" class="container">
 		<h2>Ficha de las evaluaciones del alumno</h2>
 
 		<div class="row">
 			<div class="col-md-2">
-				<img src="{{ asset('images/home/logo.png') }}" alt="" />
+				<!--<img src="{{ asset('images') }}" alt="" />-->
 			</div>
 
 			<div class="col-md-6">
-			<div class="row">
+				<div class="row">
 					<div class="col-md-4">
 						<label id="nameTitle">Nombre</label>
 					</div>
@@ -84,7 +84,7 @@
 					<div class="col-md-5">
 						<label id="alertTitle">Enviar alerta</label>
 					</div>
-					
+
 					<div class="col-md-5">
 					<button id="sendAlertButton" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="right" title="Enviar alerta" onclick="sendAlert('{{ $school }}', '{{ $person -> id }}', '', '{{ $student -> id }}', '{{ $type_user }}')">
 							<i class="fas fa-bell"></i>

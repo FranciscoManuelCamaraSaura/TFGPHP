@@ -16,6 +16,8 @@ class Subject extends Model {
 		'name',
 		'description',
 		'degree',
+		'number',
+		'group',
 		'type'
 	];
 

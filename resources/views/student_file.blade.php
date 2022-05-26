@@ -6,7 +6,7 @@
 
 		<div class="row">
 			<div class="col-md-2">
-				<img src="{{ asset('images/home/logo.png') }}" alt="" />
+				<!--<img src="{{ asset('images') }}" alt="" />-->
 			</div>
 
 			<div class="col-md-6">
@@ -84,7 +84,7 @@
 					<div class="col-md-5">
 						<label id="alertTitle">Enviar alerta</label>
 					</div>
-					
+
 					<div class="col-md-5">
 						<button id="sendAlertButton" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="right" title="Enviar alerta" onclick="sendAlert('{{ $school }}', '{{ $person -> id }}', '{{ $subject }}', '{{ $student -> id }}', '{{ $type_user }}')">
 							<i class="fas fa-bell"></i>

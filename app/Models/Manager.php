@@ -10,6 +10,7 @@ class Manager extends Model {
 	use HasFactory;
 	
 	protected $table = 'manager';
+	protected $guarded = 'id';
 
 	protected $fillable = [
 		'person',

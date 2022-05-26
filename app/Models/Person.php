@@ -10,6 +10,7 @@ class Person extends Model {
 	use HasFactory;
 
 	protected $table = 'person';
+	protected $guarded = 'id';
 
 	protected $fillable = [
 		'dni',
