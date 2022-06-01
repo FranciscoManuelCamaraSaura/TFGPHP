@@ -8,6 +8,7 @@ use App\Models\Exam;
 use App\Models\Impart;
 use App\Models\Manager;
 use App\Models\Person;
+use App\Models\Student;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,7 @@ class EventController extends Controller {
 	public function showWeb(Request $request) {
 		$output = new \Symfony\Component\Console\Output\ConsoleOutput();
 		//$output->writeln($request);
-		if (isset($request -> id) && isset($request -> person)) {
+		if(isset($request -> id) && isset($request -> person)) {
 			$school = $request -> id;
 			$person = Person::findOrFail($request -> person);
 			$type_user = $request -> type_user;
@@ -26,13 +27,35 @@ class EventController extends Controller {
 		}
 	}
 
+	public function showApi(Request $request) {
+		$managers = Manager::getManagerBySchool($request -> school);
+		$calendar = array();
+		$events = array();
+
+		foreach($managers as $manager) {
+			$events[] = Event::where("school", $request -> school) -> where("responsable", $manager -> person) -> get();
+		}
+
+		$student = Student::findOrFail($request -> student);
+		$teachers[] = Impart::getTeachers($student -> course_id, $student -> group_words);
+
+		foreach($teachers as $teacher) {
+			$events[] = Event::where("school", $request -> school) -> where("responsable", $teacher) -> get();
+		}
+
+		$calendar["events"] = $events;
+		$calendar["holidays"] = $this -> checkHolidays();
+
+		return response() -> json($calendar, 200);
+	}
+
 	public function calendar(Request $request) {
-		if (isset($request -> id) && isset($request -> person)) {
+		if(isset($request -> id) && isset($request -> person)) {
 			$school = $request -> id;
 			$person = Person::findOrFail($request -> person);
 			$type_user = $request -> type_user;
 
-			if (isset($request -> month)) {
+			if(isset($request -> month)) {
 				$month = $request -> month;
 				$page = $request -> page;
 				$page++;
@@ -205,7 +228,7 @@ class EventController extends Controller {
 		$date = $day . "/" . $month . "/" . $year;
 
 		if($type_user === "Teacher") {
-			foreach ($managers as $manager) {
+			foreach($managers as $manager) {
 				$events[] = Event::where("school", $school) -> where("date", $date) -> where("responsable", $manager -> person) -> get();
 			}
 	
@@ -265,10 +288,10 @@ class EventController extends Controller {
 			$person = Person::findOrFail($request -> person);
 			$imparts = Impart::getCoursesGroups($person -> dni);
 
-			foreach ($imparts as $impart) {
+			foreach($imparts as $impart) {
 				$course = Course::findOrFail($impart -> course_id);
 
-				if($course -> school === $school && !in_array($course, $courses)) {
+				if($course -> school === intval($school) && !in_array($course, $courses)) {
 					$courses[] = $course;
 				}
 			}
@@ -306,7 +329,7 @@ class EventController extends Controller {
 	}
 
 	public function listEvents(Request $request) {
-		if (isset($request -> id) && isset($request -> person) && isset($request -> type_user)) {
+		if(isset($request -> id) && isset($request -> person) && isset($request -> type_user)) {
 			$school = $request -> id;
 			$person = Person::findOrFail($request -> person);
 			$events = Event::getEventBySchoolResponsable($school, $person -> dni);
@@ -342,9 +365,11 @@ class EventController extends Controller {
 	}
 
 	public function update(Request $request) {
+		$courses = array();
 		$courses_id = array();
+		$subjects = array();
 
-		if (isset($request -> id) && isset($request -> person) && isset($request -> type_user)) {
+		if(isset($request -> id) && isset($request -> person) && isset($request -> type_user)) {
 			$school = $request -> id;
 			$person = Person::findOrFail($request -> person);
 			$event = Event::findOrFail($request -> event);
@@ -360,7 +385,7 @@ class EventController extends Controller {
 			} else {
 				$is_exam = false;
 				$course = "";
-				$subject = "";
+				$subject_default = "";
 				$type_exam = "";
 				$evaluation = "";
 				$exam = $this -> getEmptyExam();
@@ -369,20 +394,18 @@ class EventController extends Controller {
 			$imparts = Impart::getCoursesGroups($person -> dni);
 
 			if($type_user === "Teacher") {
-				foreach ($imparts as $impart) {
+				foreach($imparts as $impart) {
 					$course = Course::findOrFail($impart -> course_id);
 
-					if($course -> school === $school && !in_array($course -> id, $courses_id)) {
+					if($course -> school === intval($school) && !in_array($course -> id, $courses_id)) {
 						$courses[] = $course;
 						$courses_id[] = $course -> id;
-					} else if($course -> school === $school) {
+					}
+
+					if($course -> school === intval($school)) {
 						$subjects[] = Subject::getSubjectByCode($impart -> subject);
 					}
 				}
-			} else {
-				$courses = array();
-				$subjects = array();
-				$subject_default = "";
 			}
 
 			return view("event", compact("school", "person", "event", "exam", "courses", "course", "subjects", "subject_default", "is_exam", "type_exam", "evaluation", "type_user"));

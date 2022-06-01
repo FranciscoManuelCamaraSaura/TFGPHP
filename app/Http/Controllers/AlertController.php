@@ -49,7 +49,12 @@ class AlertController extends Controller {
 				$group_default = $student -> group_words;
 			} else if (isset($request -> student)) {
 				$student = Student::findOrFail($request -> student);
-				$imparts = Impart::getSubject($student -> course_id, $student -> group_words, $person -> dni);
+
+				if($type_user === "Teacher") {
+					$imparts = Impart::getSubject($student -> course_id, $student -> group_words, $person -> dni);
+				} else {
+					$imparts = Impart::getByCourseGroup($student -> course_id, $student -> group_words);
+				}
 
 				foreach($imparts as $impart) {
 					$subjects[] = Subject::getSubjectByCode($impart -> subject);
@@ -72,6 +77,22 @@ class AlertController extends Controller {
 		}
 	}
 
+	public function showApi(Request $request) {
+		$alertReceiver = Alert::getReceiver($request -> receiver);
+
+		return response() -> json($alertReceiver, 200);
+	}
+
+	public function updateRead(Request $request) {
+		$alert = Alert::findOrFail($request -> id);
+
+		$alert -> read = true;
+
+		$alert -> save();
+
+		return response() -> json(200);
+	}
+
 	public function getCourses($school, $person, $type_user) {
 		$courses_id = array();
 
@@ -81,7 +102,7 @@ class AlertController extends Controller {
 			foreach ($imparts as $impart) {
 				$course = Course::findOrFail($impart -> course_id);
 
-				if($course -> school === $school && !in_array($course -> id, $courses_id)) {
+				if($course -> school === intval($school) && !in_array($course -> id, $courses_id)) {
 					$courses[] = $course;
 					$courses_id[] = $course -> id;
 				}
@@ -106,7 +127,7 @@ class AlertController extends Controller {
 			$course = Course::findOrFail($request -> course);
 			$person = Person::findOrFail($request -> sender);
 
-			if($course -> school === $request -> school) {
+			if($course -> school === intval($request -> school)) {
 				$students = Student::getGroup($request -> course, $request -> group);
 
 				if($request -> massive === false) {

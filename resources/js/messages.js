@@ -117,7 +117,7 @@ function confirm($school, $person, $previous_message, $type_user, pantalla) {
 	var errores = validationFields();
 
 	if(errores === "") {
-		var url = new URL("http://schoolmanager:8080/messages/" + school + "/person/" + person + "/previewMessage"); 
+		var url = new URL(window.location.protocol + "//" + window.location.host + "/messages/" + school + "/person/" + person + "/previewMessage"); 
 
 		const params = {
 			subject : $("#subjects option:selected").val(),
@@ -232,7 +232,7 @@ function replyMessage($school, $person, $message, $type_user, pantalla) {
 	var person = JSON.parse($person);
 	var previous_message = JSON.parse($message);
 
-	var url = new URL("http://schoolmanager:8080/messages/" + school + "/person/" + person + "/newMessage"); 
+	var url = new URL(window.location.protocol + "//" + window.location.host + "/messages/" + school + "/person/" + person + "/newMessage"); 
 
 	const params = {
 		previous_message : previous_message,

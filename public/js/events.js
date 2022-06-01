@@ -272,7 +272,7 @@ function editEvent($school, $person, $event, $type_user) {
 	var school = JSON.parse($school);
 	var person = JSON.parse($person);
 
-	var url = new URL("http://schoolmanager:8080/events/" + school + "/person/" + person + "/editEvent"); 
+	var url = new URL(window.location.protocol + "//" + window.location.host + "/events/" + school + "/person/" + person + "/editEvent"); 
 
 	const params = {
 		event : $event,

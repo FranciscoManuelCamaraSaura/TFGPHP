@@ -29,7 +29,7 @@ class SubjectController extends Controller {
 			foreach ($imparts as $impart) {
 				$course = Course::findOrFail($impart -> course_id);
 
-				if($course -> school === $school) {
+				if($course -> school === intval($school)) {
 					$subjects[] = Subject::getSubjectByCode($impart -> subject);
 					$courses[] = $course;
 					$groups[] = $impart -> group_words;
@@ -63,9 +63,9 @@ class SubjectController extends Controller {
 			foreach ($imparts as $impart) {
 				$course = Course::findOrFail($impart -> course_id);
 
-				if($course -> school === $school && $type_user === "Teacher") {
+				if($course -> school === intval($school) && $type_user === "Teacher") {
 					$students = Student::getGroup($impart -> course_id, $impart -> group_words);
-				} else if($course -> school === $school && ($type_user === "Manager" || $type_user === "Admin")) {
+				} else if($course -> school === intval($school) && ($type_user === "Manager" || $type_user === "Admin")) {
 					$teachers[] = Person::getDNIPerson($impart -> teacher);
 				}
 			}

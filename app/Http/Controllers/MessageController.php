@@ -288,7 +288,7 @@ class MessageController extends Controller {
 				$course_default = $student -> course_id;
 				$groups = Group::getGroups($student -> course_id);
 				$group_default = $student -> group_words;
-			} else if (isset($request -> subject)) {
+			} else if(isset($request -> subject)) {
 				$previous_message = 0;
 				$student = Student::findOrFail($request -> student);
 				$subject_default = Subject::getSubjectByCode($request -> subject);
@@ -296,10 +296,15 @@ class MessageController extends Controller {
 				$course_default = $student -> course_id;
 				$groups = Group::getGroups($student -> course_id);
 				$group_default = $student -> group_words;
-			} else if (isset($request -> student)) {
+			} else if(isset($request -> student)) {
 				$previous_message = 0;
 				$student = Student::findOrFail($request -> student);
-				$imparts = Impart::getSubject($student -> course_id, $student -> group_words, $person -> dni);
+
+				if($type_user === "Teacher") {
+					$imparts = Impart::getSubject($student -> course_id, $student -> group_words, $person -> dni);
+				} else {
+					$imparts = Impart::getByCourseGroup($student -> course_id, $student -> group_words);
+				}
 
 				foreach($imparts as $impart) {
 					$subjects[] = Subject::getSubjectByCode($impart -> subject);
@@ -332,7 +337,7 @@ class MessageController extends Controller {
 			foreach ($imparts as $impart) {
 				$course = Course::findOrFail($impart -> course_id);
 
-				if($course -> school === $school && !in_array($course -> id, $courses_id)) {
+				if($course -> school === intval($school) && !in_array($course -> id, $courses_id)) {
 					$courses[] = $course;
 					$courses_id[] = $course -> id;
 				}

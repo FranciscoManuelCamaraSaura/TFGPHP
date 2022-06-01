@@ -10,6 +10,7 @@ class Subject extends Model {
 	use HasFactory;
 
 	protected $table = 'subject';
+	protected $guarded = 'id';
 
 	protected $fillable = [
 		'code',

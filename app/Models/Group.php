@@ -10,6 +10,7 @@ class Group extends Model {
 	use HasFactory;
 
 	protected $table = 'group';
+	protected $guarded = 'id';
 
 	protected $fillable = [
 		'course_id',

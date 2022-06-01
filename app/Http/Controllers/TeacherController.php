@@ -45,7 +45,7 @@ class TeacherController extends Controller {
 		foreach($imparts as $impart) {
 			$course = Course::findOrFail($impart -> course_id);
 
-			if($course -> school === $school) {
+			if($course -> school === intval($school)) {
 				$subject["name"] = Subject::getSubjectByCode($impart -> subject) -> name;
 				$subject["course"] = $course -> number;
 				$subject["degree"] = $course -> degree;

@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Listado de eventos')
+@section('title', 'Evento')
 @section('content')
 	<div id="eventItem" class="container">
 		<h2>Evento</h2>

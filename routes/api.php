@@ -1,10 +1,13 @@
 <?php
 
+use App\Http\Controllers\AlertController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\GroupHavePreceptorController;
 use App\Http\Controllers\ImpartController;
 use App\Http\Controllers\LegalGuardianController;
+use App\Http\Controllers\MakesController;
 use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PersonController;
@@ -79,4 +82,12 @@ Route::post('/messageUpdate', [MessageController::class, 'updateData']);
 Route::put('/messageSender', [MessageController::class, 'insertSenderApi']);
 // Route::put('/messageReceiver', [MessageController::class, 'insertReceiverApi']);
 
+// Alerts routes
+Route::get('/alertReceived/{receiver}', [AlertController::class, 'showApi']);
+Route::put('/alertRead/{id}', [AlertController::class, 'updateRead']);
 
+// Events routes
+Route::get('/events', [EventController::class, 'showApi']);
+
+// Makes routes
+Route::get('/makesExam', [MakesController::class, 'show']);

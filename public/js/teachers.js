@@ -104,7 +104,7 @@ function createImpartColumns($school, $person, $type_user, teachers, teachersTab
 	teachersTable += "<div class=\"col-md-1\"></div>";
 
 	teachersTable += "<div class=\"col-md-3\">";
-	teachersTable += "<a href=\"http://schoolmanager:8080/teachers/" + $school + "/person/" + $person + "/teacher/" + teachers['id'] + "?type_user=" + $type_user + "\">" + teachers['teacherName'] + "</a>";
+	teachersTable += "<a href=\"" + window.location.protocol + "//" + window.location.host + "/teachers/" + $school + "/person/" + $person + "/teacher/" + teachers['id'] + "?type_user=" + $type_user + "\">" + teachers['teacherName'] + "</a>";
 	teachersTable += "</div>";
 
 	if($type_user === "Teacher" || $type_user === "Manager") {
@@ -113,7 +113,7 @@ function createImpartColumns($school, $person, $type_user, teachers, teachersTab
 		teachersTable += "<div class=\"col-md-4\">";
 	}
 
-	teachersTable += "<a href=\"http://schoolmanager:8080/subjects/" + $school + "/person/" + $person + "/subject/" + teachers['code'] + "?type_user=" + $type_user + "\">" + teachers['subjectName'] + "</a>";
+	teachersTable += "<a href=\"" + window.location.protocol + "//" + window.location.host + "/subjects/" + $school + "/person/" + $person + "/subject/" + teachers['code'] + "?type_user=" + $type_user + "\">" + teachers['subjectName'] + "</a>";
 	teachersTable += "</div>";
 
 	if($type_user !== "Teacher" && $type_user !== "Manager") {

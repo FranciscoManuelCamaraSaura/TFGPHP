@@ -39,6 +39,10 @@ class Alert extends Model {
 		return Alert::where('sender', '=', $person) -> get();
 	}
 
+	public static function getReceiver($person) {
+		return Alert::where('receiver', '=', $person) -> get();
+	}
+
 	protected static function newFactory(): AlertFactory {
 		return AlertFactory::new();
 	}

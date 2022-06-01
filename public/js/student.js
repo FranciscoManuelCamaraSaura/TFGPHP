@@ -35,7 +35,7 @@ function sendMessage($school, $person, $subject, $student, $type_user, pantalla)
 	var school = JSON.parse($school);
 	var person = JSON.parse($person);
 
-	var url = new URL("http://schoolmanager:8080/messages/" + school + "/person/" + person + "/newMessage"); 
+	var url = new URL(window.location.protocol + "//" + window.location.host + "/messages/" + school + "/person/" + person + "/newMessage"); 
 
 	const params = {
 		subject : $subject,
@@ -53,7 +53,7 @@ function sendAlert($school, $person, $subject, $student, $type_user) {
 	var school = JSON.parse($school);
 	var person = JSON.parse($person);
 
-	var url = new URL("http://schoolmanager:8080/alerts/" + school + "/person/" + person); 
+	var url = new URL(window.location.protocol + "//" + window.location.host + "/alerts/" + school + "/person/" + person); 
 
 	const params = {
 		subject : $subject,
@@ -136,7 +136,7 @@ function validateGroup($school, $person, $type_user) {
 					studentsTable += "<div class=\"col-md-7\">";
 				}
 
-				studentsTable += "<a href=\"http://schoolmanager:8080/students/" + $school + "/person/" + $person + "/student/" + data.evaluations[i]['id'] + "?type_user=" + $type_user + "\">" + data.evaluations[i]['name'] + "</a>";
+				studentsTable += "<a href=\"" + window.location.protocol + "//" + window.location.host + "/students/" + $school + "/person/" + $person + "/student/" + data.evaluations[i]['id'] + "?type_user=" + $type_user + "\">" + data.evaluations[i]['name'] + "</a>";
 				studentsTable += "</div>";
 
 				if($type_user === "Teacher" || $type_user === "Manager") {

@@ -10,6 +10,7 @@ class LegalGuardian extends Model {
 	use HasFactory;
 
 	protected $table = 'legal_guardian';
+	protected $guarded = 'id';
 
 	protected $fillable = [
 		'person',

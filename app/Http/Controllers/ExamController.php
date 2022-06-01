@@ -70,7 +70,7 @@ class ExamController extends Controller {
 			$course = Course::findOrFail($exam -> course_id);
 			$subject = Subject::getSubjectByCode($exam -> subject);
 
-			if($course -> school === $school) {
+			if($course -> school === intval($school)) {
 				$students = Student::getGroup($exam -> course_id, $exam -> group_words);
 			}
 

@@ -130,7 +130,7 @@ class StudentController extends Controller {
 		$evaluations = array();
 		$course = Course::findOrFail($course_id);
 
-		if($course -> school === $school) {
+		if($course -> school === intval($school)) {
 			$students = Student::getGroup($course_id, $group_words);
 		}
 
