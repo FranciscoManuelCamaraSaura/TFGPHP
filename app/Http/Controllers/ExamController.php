@@ -15,14 +15,19 @@ use Illuminate\Http\Request;
 class ExamController extends Controller {
 	public function show(Request $request) {
 		$output = new \Symfony\Component\Console\Output\ConsoleOutput();
-		//$output->writeln($request);
 		$imparts = Impart::getByCourseGroup($request -> course_id, $request -> group_words);
 
 		foreach($imparts as $impart) {
 			$exams[] = Exam::getExamsByCourseGroupSubject($request -> course_id, $request -> group_words, $impart -> subject);
 		}
+		
+		foreach($exams as $exam) {
+			foreach($exam as $examOfSubject) {
+				$examsByCourseGroup[] = $examOfSubject;
+			}
+		}
 
-		return response() -> json($exams, 200);
+		return response() -> json($examsByCourseGroup, 200);
 	}
 
 	public function insert(Request $request) {
