@@ -94,4 +94,4 @@ Route::get('/events', [EventController::class, 'showApi']);
 Route::get('/exams', [ExamController::class, 'show']);
 
 // Makes routes
-Route::get('/makesExam', [MakesController::class, 'show']);
+Route::get('/makes', [MakesController::class, 'show']);
