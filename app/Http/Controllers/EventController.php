@@ -44,7 +44,7 @@ class EventController extends Controller {
 
 		foreach($events as $eventByResponsable) {
 			foreach($eventByResponsable as $event) {
-				$event -> date = $event -> date + " 00:00:00";
+				$event -> date = $event -> date . " 00:00:00";
 				$calendar[] = $event;
 			}
 		}
