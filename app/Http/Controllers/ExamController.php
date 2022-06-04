@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use App\Models\Event;
 use App\Models\Exam;
+use App\Models\Impart;
 use App\Models\Makes;
 use App\Models\Person;
 use App\Models\Student;
@@ -12,9 +13,19 @@ use App\Models\Subject;
 use Illuminate\Http\Request;
 
 class ExamController extends Controller {
-	public function insert(Request $request) {
+	public function show(Request $request) {
 		$output = new \Symfony\Component\Console\Output\ConsoleOutput();
 		//$output->writeln($request);
+		$imparts = Impart::getByCourseGroup($request -> course_id, $request -> group_words);
+
+		foreach($imparts as $impart) {
+			$exams[] = Exam::getExamsByCourseGroupSubject($request -> course_id, $request -> group_words, $impart -> subject);
+		}
+
+		return response() -> json($exams, 200);
+	}
+
+	public function insert(Request $request) {
 		$request -> validate([
 			'course' => 'required|integer',
 			'group' => 'required|string',

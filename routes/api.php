@@ -3,6 +3,7 @@
 use App\Http\Controllers\AlertController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\ExamController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\GroupHavePreceptorController;
 use App\Http\Controllers\ImpartController;
@@ -88,6 +89,9 @@ Route::put('/alertRead', [AlertController::class, 'updateRead']);
 
 // Events routes
 Route::get('/events', [EventController::class, 'showApi']);
+
+// Exams routes
+Route::get('/exams', [ExamController::class, 'show']);
 
 // Makes routes
 Route::get('/makesExam', [MakesController::class, 'show']);

@@ -28,23 +28,29 @@ class EventController extends Controller {
 	}
 
 	public function showApi(Request $request) {
-		$managers = Manager::getManagerBySchool($request -> school);
+		$managers = Manager::getManagerBySchool($request -> school_id);
 		$calendar = array();
 		$events = array();
 
 		foreach($managers as $manager) {
-			$events[] = Event::where("school", $request -> school) -> where("responsable", $manager -> person) -> get();
+			$events[] = Event::where("school", $request -> school_id) -> where("responsable", $manager -> person) -> get();
 		}
 
-		$student = Student::findOrFail($request -> student);
+		$student = Student::findOrFail($request -> student_id);
 		$teachers[] = Impart::getTeachers($student -> course_id, $student -> group_words);
 
 		foreach($teachers as $teacher) {
-			$events[] = Event::where("school", $request -> school) -> where("responsable", $teacher) -> get();
+			$events[] = Event::where("school", $request -> school_id) -> where("responsable", $teacher) -> get();
 		}
 
-		$calendar["events"] = $events;
-		$calendar["holidays"] = $this -> checkHolidays();
+		foreach($events as $eventByResponsable) {
+			foreach($eventByResponsable as $event) {
+				$calendar[] = $event;
+			}
+		}
+
+		//$calendar["events"] = $events;
+		//$calendar["holidays"] = $this -> checkHolidays();
 
 		return response() -> json($calendar, 200);
 	}
