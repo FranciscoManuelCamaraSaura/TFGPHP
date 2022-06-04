@@ -33,14 +33,14 @@ class EventController extends Controller {
 		$events = array();
 
 		foreach($managers as $manager) {
-			$events[] = Event::where("school", $request -> school_id) -> where("responsable", $manager -> person) -> get();
+			$events[] = Event::getEventBySchoolResponsable($request -> school_id, $manager -> person);
 		}
 
 		$student = Student::findOrFail($request -> student_id);
-		$teachers[] = Impart::getTeachers($student -> course_id, $student -> group_words);
+		$imparts = Impart::getByCourseGroup($student -> course_id, $student -> group_words);
 
-		foreach($teachers as $teacher) {
-			$events[] = Event::where("school", $request -> school_id) -> where("responsable", $teacher) -> get();
+		foreach($imparts as $impart) {
+			$events[] = Event::getEventBySchoolResponsable($request -> school_id, $impart -> teacher);
 		}
 
 		foreach($events as $eventByResponsable) {
