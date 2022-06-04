@@ -29,7 +29,6 @@ class EventController extends Controller {
 
 	public function showApi(Request $request) {
 		$managers = Manager::getManagerBySchool($request -> school_id);
-		$calendar = array();
 		$events = array();
 
 		foreach($managers as $manager) {
@@ -45,6 +44,7 @@ class EventController extends Controller {
 
 		foreach($events as $eventByResponsable) {
 			foreach($eventByResponsable as $event) {
+				$event -> date = $event -> date + " 00:00:00";
 				$calendar[] = $event;
 			}
 		}
