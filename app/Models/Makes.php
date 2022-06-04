@@ -27,7 +27,7 @@ class Makes extends Model {
 		return $this -> hasOne('App\Models\Exam', 'exam');
 	}
 
-	public static function getNote($student, $exam) {
-		return Makes::where('student', '=', $student) -> where('exam', '=', $exam) -> first();
+	public static function getNote($student) {
+		return Makes::where('student', '=', $student) -> get();
 	}
 }
