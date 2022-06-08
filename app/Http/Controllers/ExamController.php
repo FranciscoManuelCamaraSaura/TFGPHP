@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 class ExamController extends Controller {
 	public function show(Request $request) {
 		$output = new \Symfony\Component\Console\Output\ConsoleOutput();
+		//$output->writeln($request);
 		$imparts = Impart::getByCourseGroup($request -> course_id, $request -> group_words);
 		$examsByCourseGroup = array();
 

@@ -90,7 +90,7 @@ class AlertController extends Controller {
 
 		$alert -> save();
 
-		return response() -> json(200);
+		return response() -> json($alert, 200);
 	}
 
 	public function getCourses($school, $person, $type_user) {

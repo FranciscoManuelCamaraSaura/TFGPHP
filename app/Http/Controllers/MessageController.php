@@ -229,7 +229,7 @@ class MessageController extends Controller {
 
 		$message -> save();
 
-		return response() -> json(200);
+		return response() -> json($message, 200);
 	}
 
 	public function updateReply(Request $request) {
@@ -239,7 +239,7 @@ class MessageController extends Controller {
 
 		$message -> save();
 
-		return response() -> json(200);
+		return response() -> json($message, 200);
 	}
 
 	public function updateData(Request $request) {
