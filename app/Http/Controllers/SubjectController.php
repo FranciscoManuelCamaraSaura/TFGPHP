@@ -104,8 +104,8 @@ class SubjectController extends Controller {
 		$studentsNotes["noteSecondTrimester"] = $secondTrimester;
 		$studentsNotes["noteThirdTrimester"] = $thirdTrimester;
 
-		$studentsNotes["noteOptionalWork"] = $this -> getNotesByOtherCalifications($student -> id, $exams, "optional_work", "homework");
-		$studentsNotes["noteOptionalWork"] = $this -> getNotesByOtherCalifications($student -> id, $exams, "presentation", "exhibition");
+		$studentsNotes["noteOptionalWork"] = $this -> getNotesByOtherQualifications($student -> id, $exams, "optional_work", "homework");
+		$studentsNotes["noteOptionalWork"] = $this -> getNotesByOtherQualifications($student -> id, $exams, "presentation", "exhibition");
 
 		$studentsNotes["finalNote"] = $this -> getFinalNote($firstTrimester, $secondTrimester, $thirdTrimester);
 
@@ -133,7 +133,7 @@ class SubjectController extends Controller {
 		return $average_grade;
 	}
 
-	private function getNotesByOtherCalifications($student, $exams, $type_exam1, $type_exam2) {
+	private function getNotesByOtherQualifications($student, $exams, $type_exam1, $type_exam2) {
 		$notes = array();
 		$average_grade = 0.00;
 

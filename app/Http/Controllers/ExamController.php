@@ -16,6 +16,7 @@ class ExamController extends Controller {
 	public function show(Request $request) {
 		$output = new \Symfony\Component\Console\Output\ConsoleOutput();
 		$imparts = Impart::getByCourseGroup($request -> course_id, $request -> group_words);
+		$examsByCourseGroup = array();
 
 		foreach($imparts as $impart) {
 			$exams[] = Exam::getExamsByCourseGroupSubject($request -> course_id, $request -> group_words, $impart -> subject);
