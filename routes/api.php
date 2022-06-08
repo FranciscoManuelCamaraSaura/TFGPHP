@@ -85,7 +85,7 @@ Route::put('/messageSender', [MessageController::class, 'insertSenderApi']);
 
 // Alerts routes
 Route::get('/alertReceived/{receiver}', [AlertController::class, 'showApi']);
-Route::put('/alertRead', [AlertController::class, 'updateRead']);
+Route::post('/alertRead', [AlertController::class, 'updateRead']);
 
 // Events routes
 Route::get('/events', [EventController::class, 'showApi']);
