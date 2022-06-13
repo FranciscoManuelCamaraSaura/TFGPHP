@@ -57,7 +57,7 @@ class EventSeeder extends Seeder {
 						} else {
 							$this -> createSchoolEvent($school -> id, $manager -> person, "10/12/2021", "Segundo concilio con los padres", "Se trata de convocar a los padres de los alumnos del centro para dar una charla pedagógica.", "2");
 							$this -> createSchoolEvent($school -> id, $manager -> person, "13/05/2022", "Reunión con la AMPA", "Otra reunión con la asociación de madres y padres de los alumnos.", "2");
-							$this -> createSchoolEvent($school -> id, $manager -> person, "01/06/2022", "Jornada reflexiva del curso", "Charla sobre los aspecto a mejorar de los tutores de los alumnos para afrontar el próximo curso", "2");
+							$this -> createSchoolEvent($school -> id, $manager -> person, "01/06/2022", "Jornada reflexiva del curso", "Charla sobre los aspecto a mejorar de los tutores de los alumnos para afrontar el próximo curso.", "2");
 						}
 
 						break;
@@ -69,9 +69,9 @@ class EventSeeder extends Seeder {
 			$preceptors = GroupHavePreceptor::get();
 
 			foreach($preceptors as $preceptor) {
-				$this -> createSchoolEvent($school -> id, $preceptor -> preceptor, "12/11/2021", "Escursión a Granada.", "Escursión educativa a la cuidad de Granada.", "20");
-				$this -> createSchoolEvent($school -> id, $preceptor -> preceptor, "04/04/2021", "Escursión a Madrid.", "Escursión educativa a la cuidad de Madrid.", "20");
-				$this -> createSchoolEvent($school -> id, $preceptor -> preceptor, "20/05/2021", "Escursión a Valencia.", "Escursión educativa a la cuidad de Valencia.", "20");
+				$this -> createSchoolEvent($school -> id, $preceptor -> preceptor, "12/11/2021", "Excursión a Granada.", "Excursión educativa a la cuidad de Granada.", "20");
+				$this -> createSchoolEvent($school -> id, $preceptor -> preceptor, "04/04/2022", "Excursión a Madrid.", "Excursión educativa a la cuidad de Madrid.", "20");
+				$this -> createSchoolEvent($school -> id, $preceptor -> preceptor, "20/05/2022", "Excursión a Valencia.", "Excursión educativa a la cuidad de Valencia.", "20");
 			}
 
 			$it++;
