@@ -118,7 +118,8 @@ class SubjectController extends Controller {
 
 		foreach($exams as $exam) {
 			if($exam -> evaluation === $trimestre && ($exam -> type_exam === "written" || $exam -> type_exam === "oral")) {
-				$notes[] = Makes::getNote($student, $exam -> id) -> note;
+				$exam_note = Makes::getNote($student, $exam -> id);
+				$notes[] = $exam_note -> note;
 			}
 		}
 

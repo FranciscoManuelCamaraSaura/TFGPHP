@@ -28,6 +28,6 @@ class Makes extends Model {
 	}
 
 	public static function getNote($student, $exam) {
-		return Makes::where('student', '=', $student) -> where('exam', '=', $exam) -> get();
+		return Makes::where('student', '=', $student) -> where('exam', '=', $exam) -> first();
 	}
 }
